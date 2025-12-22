@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl" style="scroll-padding-top: 80px;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>עלמה - שיווק דיגיטלי</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '660125253756573');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=660125253756573&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
+    
+    <!-- HTTPS Enforcement Script -->
+    <script>
+      if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
+        window.location.href = window.location.href.replace('http:', 'https:');
+      }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Rubik', 'sans-serif'],
+            },
+            colors: {
+              alma: {
+                dark: '#0f172a',
+                primary: '#0ea5e9',
+                accent: '#2dd4bf',
+                light: '#f0f9ff',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Rubik', sans-serif;
+        background-color: #f8fafc;
+        transition: font-size 0.2s ease, background-color 0.3s ease;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      /* Hide honeypot field */
+      .hp-field {
+        display: none !important;
+        visibility: hidden !important;
+      }
+
+      /* Accessibility Support Classes */
+      body.acc-high-contrast {
+        background-color: #000 !important;
+        color: #fff !important;
+      }
+      body.acc-high-contrast *:not(button):not(a) {
+        color: #fff !important;
+        border-color: #fff !important;
+        background-color: transparent !important;
+      }
+      body.acc-high-contrast a, 
+      body.acc-high-contrast button {
+        color: #ffff00 !important;
+        border: 2px solid #ffff00 !important;
+        background-color: #000 !important;
+      }
+
+      body.acc-grayscale {
+        filter: grayscale(100%) !important;
+      }
+
+      body.acc-readable-font {
+        font-family: Arial, Helvetica, sans-serif !important;
+      }
+
+      body.acc-highlight-links a {
+        outline: 3px solid #facc15 !important;
+        background-color: rgba(250, 204, 21, 0.1) !important;
+        text-decoration: underline !important;
+      }
+
+      /* Text Sizes */
+      body.acc-text-large { font-size: 1.15rem !important; }
+      body.acc-text-xlarge { font-size: 1.3rem !important; }
+
+      /* Keyboard Navigation Focus */
+      *:focus-visible {
+        outline: 4px solid #0ea5e9 !important;
+        outline-offset: 2px !important;
+        box-shadow: 0 0 0 8px rgba(14, 165, 233, 0.2) !important;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+  </body>
+</html>
