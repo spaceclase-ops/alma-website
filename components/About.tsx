@@ -12,9 +12,13 @@ const About: React.FC = () => {
              <div className="relative">
                 <div className="absolute inset-0 bg-alma-primary rounded-3xl transform rotate-3 opacity-20"></div>
                 <img 
-                  src="https://picsum.photos/600/800?random=2" 
-                  alt="ניב עיני, מייסד עלמה שיווק דיגיטלי, עומד בחיוך ומקרין סמכות מקצועית" 
-                  className="relative rounded-3xl shadow-2xl w-full object-cover h-[500px] lg:h-[600px]"
+                  src="./about-niv.jpg" 
+                  alt="ניב עיני, אדריכל שיווק דיגיטלי - עלמה" 
+                  className="relative rounded-3xl shadow-2xl w-full object-cover h-[500px] lg:h-[600px] border-4 border-white"
+                  onError={(e) => {
+                    // Fallback in case the file isn't there yet
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800';
+                  }}
                 />
                 {/* Stats */}
                 <div className="absolute bottom-8 right-8 bg-white/95 backdrop-blur rounded-xl p-6 shadow-xl max-w-xs">

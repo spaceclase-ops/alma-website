@@ -42,19 +42,20 @@ const Hero: React.FC<HeroProps> = ({ onContactClick, onServicesClick }) => {
           </div>
 
           <div className="lg:w-1/2 relative">
-             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white aspect-[9/16] lg:aspect-square">
+             <div className="relative rounded-[40px] overflow-hidden shadow-2xl border-8 border-white aspect-square bg-gray-900">
                 <iframe 
-                  className="w-full h-full object-cover"
-                  src="https://www.youtube.com/embed/0BW40ybeIDQ?autoplay=1&mute=1&loop=1&playlist=0BW40ybeIDQ&controls=0&modestbranding=1"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/P_PInA_9G5U?autoplay=1&mute=1&loop=1&playlist=P_PInA_9G5U&controls=0&modestbranding=1" 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                   allowFullScreen
                 ></iframe>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8 pointer-events-none">
-                  <p className="text-white text-lg font-medium">ככה ייצרנו חצי מיליון שקל ביום אחד</p>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 pointer-events-none">
+                  <p className="text-white text-sm font-medium">ככה ייצרנו חצי מיליון שקל ביום אחד</p>
                 </div>
              </div>
+             
              {/* Floating Badge */}
              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce-slow">
                 <div className="bg-alma-accent/20 p-3 rounded-full text-alma-accent-dark">
