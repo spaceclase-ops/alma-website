@@ -12,7 +12,7 @@ const About: React.FC = () => {
              <div className="relative">
                 <div className="absolute inset-0 bg-alma-primary rounded-3xl transform rotate-3 opacity-20"></div>
                 <img 
-                  src={`${import.meta.env.BASE_URL}images/about-niv.jpg`} 
+                  src="/images/about-alma.png" 
                   alt="ניב עיני, מייסד עלמה שיווק דיגיטלי, עומד בחיוך ומקרין סמכות מקצועית" 
                   className="relative rounded-3xl shadow-2xl w-full object-cover h-[500px] lg:h-[600px]"
                 />
