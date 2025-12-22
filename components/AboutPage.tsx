@@ -45,7 +45,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onContactClick }) => {
              <div className="relative">
                 <div className="absolute inset-0 bg-alma-accent rounded-[60px] transform rotate-3 opacity-20"></div>
                 <img 
-                  src="https://picsum.photos/600/700?random=about" 
+                  src="/images/about-niv.jpg" 
                   alt="ניב עיני - עלמה" 
                   className="relative rounded-[60px] shadow-2xl w-full h-[500px] object-cover"
                 />
