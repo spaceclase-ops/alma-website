@@ -10,21 +10,21 @@ const testimonials: TestimonialItem[] = [
     name: 'רשת גרייט שייפ',
     role: 'ירון סלע | מנכ"ל ובעלים',
     content: 'It is with great pleasure that I am writing the following paragraphs on behalf of Niv and his work with Great-Shape Health and Fitness clubs. I have been working with Niv for the past 7 years in different capacities. 7 years ago, Niv was the Sales VP for the second largest Country Club in Israel. Within a matter of only a few months, Niv adopted the innovative methods and protocols of our chain, and the sales grew by 25-30%. Working closely with Niv, and seeing his prior knowledge and curiosity regarding Marketing, we decided that Niv and his team would become the Marketing Agency for the Country Club. After 6 months, in which we measured KPIs, the results showed a significant growth both in the number of leads and their quality, that were generated from Social media, at the same budget. We have transferred the account of the whole chain to Niv\'s Marketing Agency. This act has proven to be one of the most lucrative decisions we have made.',
-    image: 'https://picsum.photos/100/100?random=25'
+    image: '/images/great-shape.png'
   },
   {
     id: '6',
     name: 'B-Cure Laser',
     role: 'אלי שוטן | סמנכ"ל',
     content: 'מהרגע שהתחלנו לעבוד עם "עלמה?", הרגשתי שהשיווק של העסק נמצא בידיים הכי טובות שיש. השילוב בין ייעוץ אסטרטגי חכם לבין הבנה עמוקה של השוק נתן לנו את הביטחון לצמוח. מומלץ בחום לכל בעל עסק שמחפש קפיצת מדרגה.',
-    image: 'https://picsum.photos/100/100?random=26'
+    image: '/images/B-Cure-Laser.png'
   },
   {
     id: '8',
     name: 'SMOOVEE',
     role: 'טל | מנכ"ל',
     content: 'עלמה הוא המשרד פרסום לעסק שלי מהיום הראשון ואנחנו יותר ממרוצים ממנו!השירות מצויין, יצירתיות זה שם המפתח עומד בכל תנאי האופטימיזציה שלנו והכי חשוב תמיד זמין לשגעונות שלנו! ממולץ בחום!',
-    image: 'https://picsum.photos/100/100?random=28'
+    image: '/images/Smoovee.png'
   }
 ];
 
