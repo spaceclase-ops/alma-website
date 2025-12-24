@@ -288,7 +288,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             {/* Google Maps Placeholder/Iframe */}
             <div className="mt-12 rounded-[40px] overflow-hidden shadow-xl border-4 border-white h-80 bg-gray-100 relative">
                <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m3!1d3372.5073!2d35.1073!3d32.6565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151da1f0e!2zSGFnaWEgMjUsIFlvcm5lYW0gSWRpdA!5e0!3m2!1siw!2sil!4v1700000000000!5m2!1siw!2sil" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4233.0682494463645!2d35.081678312082566!3d32.638457915673946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151da94656fe969b%3A0x4f9adc05745b96cc!2z16LXnNee15Q_!5e0!3m2!1siw!2sil!4v1766585829038!5m2!1siw!2sil" 
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
