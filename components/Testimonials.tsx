@@ -48,8 +48,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ onSeeAllClick }) => {
                 <Quote size={40} />
               </div>
               
-              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-alma-light mb-4 shadow-md">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-alma-light mb-4 shadow-md bg-white">
+                <img src={item.image} alt={item.name} className="w-full h-full object-contain p-2" />
               </div>
               
               <div className="mb-4">
