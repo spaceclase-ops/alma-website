@@ -29,7 +29,7 @@ const Contact: React.FC = () => {
     bot_answer: '' // Simple Math CAPTCHA alternative
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // 1. Honeypot check
@@ -44,39 +44,60 @@ const Contact: React.FC = () => {
       return;
     }
 
-    // 3. Marketing Consent
-    if (!formState.marketingConsent) {
-      alert('יש לאשר את תנאי השימוש ומדיניות הפרטיות להמשך.');
-      return;
-    }
-
-    // 4. Rate Limiting
+    // 3. Rate Limiting
     if (!checkRateLimit()) {
       alert("נא להמתין דקה לפני שליחה נוספת.");
       return;
     }
-    
-    // Security sanitized payload
-    const payload = {
-      n: formState.name.trim().substring(0, 100),
-      p: formState.phone.trim().substring(0, 20),
-      e: formState.email.trim().substring(0, 100),
-      ts: new Date().toISOString(),
-      c: true
-    };
-    
-    // Meta Pixel Lead Tracking
-    if ((window as any).fbq) {
-      (window as any).fbq('track', 'Lead', {
-        content_name: 'Home Contact Form',
-        status: 'Success'
-      });
-    }
 
-    localStorage.setItem('_sf_ls', Date.now().toString());
-    console.log('Secure submission:', payload);
-    alert('תודה רבה! ההודעה נשלחה בהצלחה.');
-    setFormState({ name: '', phone: '', email: '', message: '', marketingConsent: false, hp_field: '', bot_answer: '' });
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    
+    if (!accessKey || accessKey === 'your_access_key_here') {
+      alert('שגיאה: מפתח Web3Forms לא מוגדר. אנא בדוק את קובץ .env.local');
+      console.error('Web3Forms access key is missing');
+      return;
+    }
+    
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: 'Contact Form – Homepage',
+          from_name: 'Alma Website',
+          name: formState.name.trim(),
+          phone: formState.phone.trim(),
+          email: formState.email.trim(),
+          message: formState.message.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Meta Pixel Lead Tracking
+        if ((window as any).fbq) {
+          (window as any).fbq('track', 'Lead', {
+            content_name: 'Home Contact Form',
+            status: 'Success'
+          });
+        }
+
+        localStorage.setItem('_sf_ls', Date.now().toString());
+        console.log('Form submitted successfully');
+        alert('תודה רבה! ההודעה נשלחה בהצלחה.');
+        setFormState({ name: '', phone: '', email: '', message: '', marketingConsent: false, hp_field: '', bot_answer: '' });
+      } else {
+        console.error('Form submission failed:', data);
+        alert('משהו השתבש בשליחת ההודעה. נסו שוב מאוחר יותר.');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('שגיאה בשליחת ההודעה. נסו שוב מאוחר יותר.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -217,7 +238,6 @@ const Contact: React.FC = () => {
                   <input
                     type="checkbox"
                     name="marketingConsent"
-                    required
                     checked={formState.marketingConsent}
                     onChange={handleChange}
                     className="mt-1 w-5 h-5 text-alma-primary rounded border-gray-300 focus:ring-alma-primary"
