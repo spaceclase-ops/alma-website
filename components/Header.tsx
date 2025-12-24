@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const whatsappUrl = "https://wa.me/972557294069?text=היי%20ניב,%20ראיתי%20את%20האתר%20ואני%20רוצה%20שיחת%20אבחון%20קצרה";
+  const whatsappUrl = "https://wa.me/972557294068?text=היי%20ניב,%20ראיתי%20את%20האתר%20ואני%20רוצה%20שיחת%20אבחון%20קצרה";
   const facebookUrl = "https://www.facebook.com/profile.php?id=100064074121688&sk=about";
 
   return (

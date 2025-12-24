@@ -26,7 +26,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
 
   if (!article) return <div className="pt-32 text-center">הכתבה לא נמצאה</div>;
 
-  const whatsappCtaUrl = "https://wa.me/972557294069?text=היי%20ניב,%20ראיתי%20את%20האתר%20ואני%20רוצה%20שיחת%20אבחון%20קצרה";
+  const whatsappCtaUrl = "https://wa.me/972557294068?text=היי%20ניב,%20ראיתי%20את%20האתר%20ואני%20רוצה%20שיחת%20אבחון%20קצרה";
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   return (

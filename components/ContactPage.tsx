@@ -98,7 +98,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
     }
   };
 
-  const whatsappUrl = "https://wa.me/972557294069?text=היי%20ניב,%20אני%20רוצה%20להתייעץ%20לגבי%20העסק%20שלי";
+  const whatsappUrl = "https://wa.me/972557294068?text=היי%20ניב,%20אני%20רוצה%20להתייעץ%20לגבי%20העסק%20שלי";
   const wazeUrl = "https://www.waze.com/ul?ll=32.6565,35.1095&navigate=yes";
 
   return (
@@ -133,7 +133,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">טלפון ישיר</h4>
-                  <a href="tel:0557294069" className="text-2xl font-bold text-alma-dark hover:text-alma-primary transition-colors">055-7294069</a>
+                  <a href="tel:0557294068" className="text-2xl font-bold text-alma-dark hover:text-alma-primary transition-colors">055-7294068</a>
                 </div>
               </div>
 

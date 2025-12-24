@@ -155,7 +155,7 @@ const TestimonialsPage: React.FC<TestimonialsPageProps> = ({ onBack, onContactCl
                  <Button onClick={onContactClick} className="text-xl px-12 py-5 shadow-2xl">
                     בואו נדבר תכלס <ArrowRight size={24} className="mr-2" />
                  </Button>
-                 <a href="tel:0557294069">
+                 <a href="tel:0557294068">
                     <Button variant="outline" className="text-xl px-12 py-5 border-white text-white hover:bg-white hover:text-alma-dark">
                        התקשרו אלינו
                     </Button>
