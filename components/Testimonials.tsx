@@ -48,16 +48,16 @@ const Testimonials: React.FC<TestimonialsProps> = ({ onSeeAllClick }) => {
                 <Quote size={40} />
               </div>
               
-              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-alma-light mb-6 shadow-md">
+              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-alma-light mb-4 shadow-md">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
               </div>
               
-              <p className="text-gray-600 italic mb-6 leading-relaxed">"{item.content}"</p>
-              
-              <div className="mt-auto">
+              <div className="mb-4">
                 <h4 className="text-xl font-bold text-alma-dark">{item.name}</h4>
                 <p className="text-sm text-alma-primary font-medium">{item.role}</p>
               </div>
+              
+              <p className="text-gray-600 italic leading-relaxed">"{item.content}"</p>
             </div>
           ))}
         </div>
