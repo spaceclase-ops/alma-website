@@ -51,6 +51,16 @@
                 accent: '#2dd4bf',
                 light: '#f0f9ff',
               }
+            },
+            animation: {
+              'marquee': 'marquee 40s linear infinite',
+              'bounce-slow': 'bounce 3s infinite',
+            },
+            keyframes: {
+              marquee: {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-50%)' },
+              }
             }
           }
         }
@@ -111,6 +121,12 @@
         outline: 4px solid #0ea5e9 !important;
         outline-offset: 2px !important;
         box-shadow: 0 0 0 8px rgba(14, 165, 233, 0.2) !important;
+      }
+
+      /* Ensure marquee container doesn't cause overflow issues */
+      .marquee-container {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
       }
     </style>
   <script type="importmap">

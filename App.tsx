@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import LogoStrip from './components/LogoStrip';
 import Services from './components/Services';
 import ServicesPage from './components/ServicesPage';
 import About from './components/About';
@@ -125,7 +126,7 @@ function App() {
           <LegalPageLayout title="מדיניות פרטיות" onBack={handleHomeNavigate}>
             <section>
               <h2>1. מבוא</h2>
-              <p>ברוכים הבאים לאתר של "עלמה, שיווק דיגיטלי". אנו מכבדים את פרטיותך ומחויבים להגן על המידע האישי שאתה משתף איתנו. מדיניות זו מסבירה אילו סוגי מידע אנו אוספים וכיצד אנו משתמשים בו.</p>
+              <p>ברוכים הבאים לאתר של "עלמה?י". אנו מכבדים את פרטיותך ומחויבים להגן על המידע האישי שאתה משתף איתנו. מדיניות זו מסבירה אילו סוגי מידע אנו אוספים וכיצד אנו משתמשים בו.</p>
             </section>
             <section>
               <h2>2. המידע שאנו אוספים</h2>
@@ -250,6 +251,7 @@ function App() {
         {view === 'home' && (
           <>
             <Hero onContactClick={handleContactNavigate} onServicesClick={handleServicesPageNavigate} />
+            <LogoStrip />
             <Services onSeeAllClick={handleServicesPageNavigate} />
             <About />
             <Testimonials onSeeAllClick={handleTestimonialsPageNavigate} />
