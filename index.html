@@ -51,16 +51,6 @@
                 accent: '#2dd4bf',
                 light: '#f0f9ff',
               }
-            },
-            animation: {
-              'marquee': 'marquee 40s linear infinite',
-              'bounce-slow': 'bounce 3s infinite',
-            },
-            keyframes: {
-              marquee: {
-                '0%': { transform: 'translateX(0)' },
-                '100%': { transform: 'translateX(-50%)' },
-              }
             }
           }
         }
@@ -71,6 +61,7 @@
         font-family: 'Rubik', sans-serif;
         background-color: #f8fafc;
         transition: font-size 0.2s ease, background-color 0.3s ease;
+        overflow-x: hidden;
       }
       html {
         scroll-behavior: smooth;
@@ -123,10 +114,34 @@
         box-shadow: 0 0 0 8px rgba(14, 165, 233, 0.2) !important;
       }
 
-      /* Ensure marquee container doesn't cause overflow issues */
+      /* אנימציה מותאמת אישית ל-RTL */
+      @keyframes marquee-rtl {
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(50%, 0, 0); }
+      }
+
+      .animate-marquee-rtl {
+        display: flex;
+        width: max-content;
+        animation: marquee-rtl 40s linear infinite;
+        will-change: transform;
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+
       .marquee-container {
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+      }
+      
+      /* מניעת קפיצות במובייל */
+      .logo-item {
+        flex-shrink: 0;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
       }
     </style>
   <script type="importmap">

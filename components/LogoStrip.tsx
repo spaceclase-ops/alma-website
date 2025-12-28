@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LogoStrip: React.FC = () => {
-  // רשימת הלוגואים
+  // רשימת כל 29 הלוגואים כולל הסטריפים החדשים
   const logos = [
     { name: 'B-Cure Laser', path: '/images/B-Cure-Laser.png' },
     { name: 'Smoovee', path: '/images/Smoovee.png' },
@@ -34,42 +34,41 @@ const LogoStrip: React.FC = () => {
     { name: 'Strip 21', path: '/images/strip21.png' },
   ];
 
-  // מכפילים את המערך שלוש פעמים כדי להבטיח רצף מלא במסכים רחבים
-  const tripleLogos = [...logos, ...logos, ...logos];
+  // מכפילים את המערך כדי ליצור לופ חלק
+  const doubledLogos = [...logos, ...logos];
 
   return (
-    <div className="py-12 bg-white border-y border-gray-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 mb-8 text-center relative z-10">
-        <h2 className="text-gray-400 text-xs font-bold uppercase tracking-[0.2em]">
+    <div className="py-8 md:py-16 bg-white border-y border-gray-100 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 mb-6 md:mb-10 text-center">
+        <h2 className="text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">
           לקוחות שבחרו ב"עלמה?"
         </h2>
       </div>
       
-      <div className="marquee-container overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap items-center w-max">
-          {tripleLogos.map((logo, index) => (
+      <div className="marquee-container relative">
+        <div className="animate-marquee-rtl flex items-center">
+          {doubledLogos.map((logo, index) => (
             <div 
-              key={index} 
-              className="mx-10 md:mx-16 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+              key={`${logo.name}-${index}`} 
+              className="logo-item mx-6 md:mx-12 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
             >
-              <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
-                <img 
-                  src={logo.path} 
-                  alt={logo.name} 
-                  className="w-full h-full object-contain p-2"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    const parent = target.parentElement;
-                    if (parent) {
-                      target.style.display = 'none';
-                      const span = document.createElement('span');
-                      span.className = 'text-gray-300 font-bold text-sm';
-                      span.innerText = logo.name;
-                      parent.appendChild(span);
-                    }
-                  }}
-                />
-              </div>
+              <img 
+                src={logo.path} 
+                alt={logo.name} 
+                className="h-12 md:h-20 w-auto object-contain max-w-[160px] md:max-w-[240px]"
+                loading="lazy"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  const parent = target.parentElement;
+                  if (parent) {
+                    target.style.display = 'none';
+                    const span = document.createElement('span');
+                    span.className = 'text-gray-300 font-bold text-[10px] md:text-xs whitespace-nowrap';
+                    span.innerText = logo.name;
+                    parent.appendChild(span);
+                  }
+                }}
+              />
             </div>
           ))}
         </div>
