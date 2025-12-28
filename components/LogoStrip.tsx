@@ -34,20 +34,22 @@ const LogoStrip: React.FC = () => {
     { name: 'Strip 21', path: '/images/strip21.png' },
   ];
 
-  // מכפילים את המערך כדי ליצור לופ חלק
-  const doubledLogos = [...logos, ...logos];
+  // מכפילים את המערך 4 פעמים כדי ליצור לופ חלק ללא קפיצות
+  const quadrupledLogos = [...logos, ...logos, ...logos, ...logos];
 
   return (
     <div className="py-8 md:py-16 bg-white border-y border-gray-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 mb-6 md:mb-10 text-center">
-        <h2 className="text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">
+        <h2 className="text-gray-600 text-xl md:text-2xl font-extrabold uppercase tracking-[0.15em]">
           לקוחות שבחרו ב"עלמה?"
         </h2>
       </div>
       
       <div className="marquee-container relative">
         <div className="animate-marquee-rtl flex items-center">
-          {doubledLogos.map((logo, index) => (
+          {quadrupledLogos.map((logo, index) => {
+            const isSmallLogo = logo.name === 'B-Cure Laser' || logo.name === 'עמותת החתולים בישראל';
+            return (
             <div 
               key={`${logo.name}-${index}`} 
               className="logo-item mx-6 md:mx-12 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
@@ -55,7 +57,10 @@ const LogoStrip: React.FC = () => {
               <img 
                 src={logo.path} 
                 alt={logo.name} 
-                className="h-12 md:h-20 w-auto object-contain max-w-[160px] md:max-w-[240px]"
+                className={isSmallLogo 
+                  ? "h-16 md:h-[106px] w-auto object-contain max-w-[213px] md:max-w-[320px]"
+                  : "h-48 md:h-80 w-auto object-contain max-w-[320px] md:max-w-[640px]"
+                }
                 loading="lazy"
                 onError={(e) => {
                   const target = e.currentTarget;
@@ -70,7 +75,8 @@ const LogoStrip: React.FC = () => {
                 }}
               />
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
