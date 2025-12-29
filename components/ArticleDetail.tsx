@@ -90,8 +90,17 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
         </div>
 
         <div className={`w-full aspect-video rounded-[40px] ${article.bgColor} flex items-center justify-center mb-16 shadow-inner relative overflow-hidden group`}>
-           <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
-           <article.icon size={120} className={`${article.color} relative z-10 transform group-hover:scale-110 transition-transform duration-700`} />
+           {article.image ? (
+             <>
+               <img src={article.image} alt={article.title} className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700" />
+               <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent"></div>
+             </>
+           ) : (
+             <>
+               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+               <article.icon size={120} className={`${article.color} relative z-10 transform group-hover:scale-110 transition-transform duration-700`} />
+             </>
+           )}
         </div>
 
         <div className="max-w-3xl mx-auto">
@@ -122,8 +131,12 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
                   onClick={() => onSelectOther(item.slug)}
                   className="group cursor-pointer"
                 >
-                  <div className={`aspect-video rounded-2xl ${item.bgColor} flex items-center justify-center mb-4 transition-all group-hover:shadow-lg`}>
-                    <item.icon size={48} className={item.color} />
+                  <div className={`aspect-video rounded-2xl ${item.bgColor} flex items-center justify-center mb-4 transition-all group-hover:shadow-lg overflow-hidden`}>
+                    {item.image ? (
+                      <img src={item.image} alt={item.title} className="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500" />
+                    ) : (
+                      <item.icon size={48} className={item.color} />
+                    )}
                   </div>
                   <h4 className="text-xl font-bold text-alma-dark group-hover:text-alma-primary transition-colors mb-2">
                     {item.title}

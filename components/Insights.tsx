@@ -30,9 +30,15 @@ const Insights: React.FC<InsightsProps> = ({ onSelect, onSeeAllClick }) => {
               onClick={() => onSelect?.(insight.slug)}
               className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md hover:border-alma-primary/20 transition-all duration-300 flex flex-col sm:flex-row gap-6 items-start cursor-pointer group"
             >
-              <div className={`w-14 h-14 rounded-2xl ${insight.bgColor} ${insight.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                <insight.icon size={28} />
-              </div>
+              {insight.image ? (
+                <div className="w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <img src={insight.image} alt={insight.title} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className={`w-14 h-14 rounded-2xl ${insight.bgColor} ${insight.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                  <insight.icon size={28} />
+                </div>
+              )}
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-xs font-bold text-alma-primary uppercase tracking-wider">{insight.category}</span>

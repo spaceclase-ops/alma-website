@@ -12,6 +12,7 @@ export interface Insight {
   icon: any;
   color: string;
   bgColor: string;
+  image: string;
 }
 
 const rawArticles = [
@@ -213,6 +214,22 @@ const calculateReadTime = (text: string) => {
   return Math.max(Math.ceil(words / 180), 3);
 };
 
+// מיפוי בין כותרות הכתבות לשמות קבצי התמונות (1920x1200)
+const titleToImageMap: { [key: string]: string } = {
+  "מה הסיפור של המחיר?": "/images/מה הסיפור של המחיר-1920.1200.png",
+  "מה זאת אסטרטגיה": "/images/מה זאת אסטרטגיה-1920.1200.png",
+  "למה להשקיע בלקוח קיים?": "/images/למה להשקיע בלקוח קיים-1920.1200.png",
+  "מה זה מסגור?": "/images/מה זה מסגור-1920.1200.png",
+  "תיקון קטן במנגנון יוצר נקודת מפנה בעסק": "/images/תיקון קטן במנגנון יוצר נקודת מפנה בעסק-1920.1200.png",
+  "למה לשאול שאלות את הלקוחות שלכם?": "/images/למה לשאול שאלות את הלקוחות שלכם-1920.1200.png",
+  "מה זה משפך הפוך?": "/images/מה זה משפך הפוך-1920.1200.png",
+  "חשיבות הפקת לקחים": "/images/חשיבות הפקת לקחים-1920.1200.png",
+  "הבנה למקורות הגעה": "/images/הבנה למקורות הגעה-1920.1200.png",
+  "הרגלים לא טובים של עסק": "/images/הרגלים לא טובים של העסק-1920.1200.png",
+  "פרסום זה דלק, מנגנון זה מנוע": "/images/פרסום זה דלק מנגנון זה מנוע-1920.1200.png",
+  "איך מייצרים לקוחות?": "/images/איך מייצרים לקוחות-1920.1200.png"
+};
+
 export const insights: Insight[] = rawArticles.map((art, idx) => {
   const slug = `insight-${art.id}`;
   const textParts = art.text.split('\n');
@@ -230,6 +247,7 @@ export const insights: Insight[] = rawArticles.map((art, idx) => {
     fullContent,
     icon: art.icon,
     color: art.color,
-    bgColor: art.bgColor
+    bgColor: art.bgColor,
+    image: titleToImageMap[art.title] || ''
   };
 });

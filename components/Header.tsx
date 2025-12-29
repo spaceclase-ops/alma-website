@@ -7,7 +7,7 @@ import { NavItem } from '../types';
 const navItems: NavItem[] = [
   { label: 'ראשי', href: '#home' },
   { label: 'שירותים', href: '#services' },
-  { label: 'קצת עליי', href: '#about' },
+  { label: 'קצת עלינו', href: '#about' },
   { label: 'המלצות', href: '#testimonials' },
   { label: 'תובנות', href: '#insights' },
   { label: 'שאלות נפוצות', href: '#faq' },

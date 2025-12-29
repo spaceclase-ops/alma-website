@@ -67,10 +67,21 @@ const InsightsPage: React.FC<InsightsPageProps> = ({ onBack, onSelectInsight }) 
               onClick={() => onSelectInsight(insight.slug)}
               className="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer group flex flex-col h-full"
             >
-              <div className={`aspect-[16/10] ${insight.bgColor} flex items-center justify-center relative overflow-hidden`}>
-                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-                 <insight.icon size={80} className={`${insight.color} transform group-hover:scale-125 transition-transform duration-700`} />
-                 <div className="absolute top-6 right-6">
+              <div className={`aspect-[16/10] ${insight.image ? '' : insight.bgColor} relative overflow-hidden`}>
+                 {insight.image ? (
+                   <>
+                     <img src={insight.image} alt={insight.title} className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
+                     <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent"></div>
+                   </>
+                 ) : (
+                   <>
+                     <div className={`${insight.bgColor} flex items-center justify-center h-full`}>
+                       <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+                       <insight.icon size={80} className={`${insight.color} transform group-hover:scale-125 transition-transform duration-700 relative z-10`} />
+                     </div>
+                   </>
+                 )}
+                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
                     <span className="bg-white/90 backdrop-blur-sm text-alma-dark px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-sm">
                       {insight.category}
                     </span>
