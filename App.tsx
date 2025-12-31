@@ -9,6 +9,7 @@ import About from './components/About';
 import AboutPage from './components/AboutPage';
 import Testimonials from './components/Testimonials';
 import TestimonialsPage from './components/TestimonialsPage';
+import VideoCarousel from './components/VideoCarousel';
 import Insights from './components/Insights';
 import InsightsPage from './components/InsightsPage';
 import Contact from './components/Contact';
@@ -255,6 +256,7 @@ function App() {
             <Services onSeeAllClick={handleServicesPageNavigate} />
             <About />
             <Testimonials onSeeAllClick={handleTestimonialsPageNavigate} />
+            <VideoCarousel />
             <Insights onSelect={handleSelectInsight} onSeeAllClick={handleInsightsPageNavigate} />
             <Contact />
           </>
