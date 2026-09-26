@@ -235,9 +235,13 @@ const slugById: { [id: number]: string } = {
   12: 'how-to-generate-customers'
 };
 
-// הכתובות הישנות (insight-1 ... insight-12) מופנות לכתובות החדשות, גם ב-vercel.json.
+// הכתובות הישנות (insight-1 ... insight-12) היו בשימוש עד ספטמבר 2026 ומופנות לכתובות החדשות,
+// גם ב-vercel.json וב-netlify.toml. מאמרים שנוספים מעכשיו לא צריכים הפניה כזו.
+const LAST_LEGACY_ARTICLE_ID = 12;
 export const legacyInsightSlugs: { [legacySlug: string]: string } = Object.fromEntries(
-  rawArticles.map(art => [`insight-${art.id}`, slugById[art.id]])
+  rawArticles
+    .filter(art => art.id <= LAST_LEGACY_ARTICLE_ID)
+    .map(art => [`insight-${art.id}`, slugById[art.id]])
 );
 
 export const insights: Insight[] = rawArticles.map((art, idx) => {
