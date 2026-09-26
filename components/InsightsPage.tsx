@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Clock, Calendar, User, Search, Filter } from 'lucide-react';
 import { insights } from '../data/insightsData';
 import Button from './Button';
+import { isPlainLeftClick } from '../navigation';
 
 interface InsightsPageProps {
   onBack: () => void;
@@ -62,15 +63,28 @@ const InsightsPage: React.FC<InsightsPageProps> = ({ onBack, onSelectInsight }) 
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredInsights.map((insight) => (
-            <div 
+            <a
               key={insight.slug}
-              onClick={() => onSelectInsight(insight.slug)}
+              href={`/insights/${insight.slug}`}
+              onClick={(e) => {
+                if (!isPlainLeftClick(e)) return;
+                e.preventDefault();
+                onSelectInsight(insight.slug);
+              }}
               className="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer group flex flex-col h-full"
             >
               <div className={`aspect-[16/10] ${insight.image ? '' : insight.bgColor} relative overflow-hidden`}>
                  {insight.image ? (
                    <>
-                     <img src={insight.image} alt={insight.title} className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
+                     <img
+                       src={insight.imageSmall}
+                       srcSet={`${insight.imageSmall} 640w, ${insight.image} 1280w`}
+                       sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+                       alt={insight.title}
+                       loading="lazy"
+                       decoding="async"
+                       className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                     />
                      <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent"></div>
                    </>
                  ) : (
@@ -120,7 +134,7 @@ const InsightsPage: React.FC<InsightsPageProps> = ({ onBack, onSelectInsight }) 
                     </span>
                  </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 

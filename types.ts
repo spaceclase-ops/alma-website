@@ -18,4 +18,5 @@ export interface TestimonialItem {
 export interface NavItem {
   label: string;
   href: string;
+  path?: string; // real URL of the page, rendered as the link's href
 }

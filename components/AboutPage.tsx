@@ -34,7 +34,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onContactClick }) => {
             </h1>
             <div className="space-y-6 text-xl text-gray-600 leading-relaxed">
               <p>
-                <strong>"עלמה?"</strong> הוא משרד ליווי אסטרטגי ושיווקי הפועל משנת 2018. אנחנו מלווים עסקים שמבינים שהצלחה בדיגיטל לא נמדדת רק בקליקים, אלא במה שקורה כשהטלפון מצלצל.
+                <strong>"עלמה?"</strong> היא חברה לצמיחה ופיתוח עסקי – משרד ליווי אסטרטגי ושיווקי הפועל משנת 2018. אנחנו מלווים עסקים שמבינים שהצלחה בדיגיטל לא נמדדת רק בקליקים, אלא במה שקורה כשהטלפון מצלצל.
               </p>
               <p>
                 מאז הקמת עלמה ליווינו מעל <strong>178 עסקים</strong>, בעיקר בתחומי השירות, הקמעונאות, הפיטנס ועסקים מבוססי מכירה. העבודה שלנו מתמקדת בבניית מנגנון עסקי ושיווקי שמחבר בין זהות העסק, תהליכי מכירה, תפעול ופרסום – בצורה שמחזיקה לאורך זמן.
@@ -45,8 +45,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onContactClick }) => {
              <div className="relative">
                 <div className="absolute inset-0 bg-alma-accent rounded-[60px] transform rotate-3 opacity-20"></div>
                 <img 
-                  src="/images/about-alma.png" 
-                  alt="ניב עיני - עלמה" 
+                  src="/images/about-alma.webp" 
+                  alt="ניב עיני, מייסד עלמה? – צמיחה ופיתוח עסקי"
                   className="relative rounded-[60px] shadow-2xl w-full h-[500px] object-cover"
                 />
                 <div className="absolute -bottom-8 -right-8 bg-white p-8 rounded-3xl shadow-xl">

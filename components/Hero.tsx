@@ -30,7 +30,7 @@ const Hero: React.FC<HeroProps> = ({ onContactClick, onServicesClick }) => {
               </span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-רוב העסקים חושבים שחסר להם פרסום. בפועל חסר להם סדר פנימי: זהות ברורה, תהליך מכירה, ומנגנון שמחזיק גם בלי קמפיין. ב"עלמה?" אנחנו בונים את המנוע של העסק – ורק אז לוחצים על הגז ומפרסמים את הקמפיינים            </p>
+רוב העסקים חושבים שחסר להם פרסום. בפועל חסר להם סדר פנימי: זהות ברורה, תהליך מכירה, ומנגנון שמחזיק גם בלי קמפיין. ב"עלמה?", חברה לצמיחה ופיתוח עסקי, אנחנו בונים את המנוע של העסק – ורק אז לוחצים על הגז ומפרסמים את הקמפיינים            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button onClick={onContactClick} className="w-full sm:w-auto shadow-xl">
                 בואו לשיחת אבחון חכמה <ArrowLeft className="mr-2 h-5 w-5" />

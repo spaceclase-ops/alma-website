@@ -1,7 +1,9 @@
 import React from 'react';
 import { ArrowRight, Calendar, User, Clock, Share2, Facebook, Send } from 'lucide-react';
 import { insights } from '../data/insightsData';
+import { SITE_URL } from '../data/site';
 import Button from './Button';
+import { isPlainLeftClick } from '../navigation';
 
 interface ArticleDetailProps {
   slug: string;
@@ -27,7 +29,8 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
   if (!article) return <div className="pt-32 text-center">הכתבה לא נמצאה</div>;
 
   const whatsappCtaUrl = "https://wa.me/972557294068?text=היי%20ניב,%20ראיתי%20את%20האתר%20ואני%20רוצה%20שיחת%20אבחון%20קצרה";
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  // Canonical address (identical in the prerendered HTML and in the browser).
+  const shareUrl = `${SITE_URL}/insights/${article.slug}`;
 
   return (
     <div className="pt-32 pb-24 bg-white min-h-screen">
@@ -92,7 +95,13 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
         <div className={`w-full aspect-video rounded-[40px] ${article.bgColor} flex items-center justify-center mb-16 shadow-inner relative overflow-hidden group`}>
            {article.image ? (
              <>
-               <img src={article.image} alt={article.title} className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700" />
+               <img
+                 src={article.image}
+                 srcSet={`${article.imageSmall} 640w, ${article.image} 1280w`}
+                 sizes="(min-width: 896px) 832px, 100vw"
+                 alt={article.title}
+                 className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700"
+               />
                <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent"></div>
              </>
            ) : (
@@ -126,14 +135,27 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
             <h3 className="text-2xl font-bold text-alma-dark mb-10">תובנות נוספות שעשויות לעניין אותך</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {related.map((item) => (
-                <div 
+                <a
                   key={item.slug}
-                  onClick={() => onSelectOther(item.slug)}
+                  href={`/insights/${item.slug}`}
+                  onClick={(e) => {
+                    if (!isPlainLeftClick(e)) return;
+                    e.preventDefault();
+                    onSelectOther(item.slug);
+                  }}
                   className="group cursor-pointer"
                 >
                   <div className={`aspect-video rounded-2xl ${item.bgColor} flex items-center justify-center mb-4 transition-all group-hover:shadow-lg overflow-hidden`}>
                     {item.image ? (
-                      <img src={item.image} alt={item.title} className="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500" />
+                      <img
+                        src={item.imageSmall}
+                        srcSet={`${item.imageSmall} 640w, ${item.image} 1280w`}
+                        sizes="(min-width: 768px) 400px, 100vw"
+                        alt={item.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500"
+                      />
                     ) : (
                       <item.icon size={48} className={item.color} />
                     )}
@@ -144,7 +166,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ slug, onBack, onSelectOth
                   <p className="text-gray-500 text-sm line-clamp-2">
                     {item.content}
                   </p>
-                </div>
+                </a>
               ))}
             </div>
           </div>

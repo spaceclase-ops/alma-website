@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, ArrowRight, MessageCircle, Clock, Navigation } from 'lucide-react';
 import Button from './Button';
 
@@ -8,10 +8,14 @@ interface ContactPageProps {
 }
 
 const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
-  const [botChallenge] = useState({
-    a: Math.floor(Math.random() * 10) + 1,
-    b: Math.floor(Math.random() * 10) + 1
-  });
+  // Drawn after mount so the prerendered HTML and the first client render match.
+  const [botChallenge, setBotChallenge] = useState<{ a: number; b: number } | null>(null);
+  useEffect(() => {
+    setBotChallenge({
+      a: Math.floor(Math.random() * 10) + 1,
+      b: Math.floor(Math.random() * 10) + 1
+    });
+  }, []);
 
   const [formState, setFormState] = useState({
     name: '',
@@ -27,7 +31,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
     e.preventDefault();
 
     if (formState.hp_field) return;
-    if (parseInt(formState.bot_answer) !== (botChallenge.a + botChallenge.b)) {
+    if (!botChallenge || parseInt(formState.bot_answer) !== (botChallenge.a + botChallenge.b)) {
       alert("נא להזין תשובה נכונה לשאלת האבטחה.");
       return;
     }
@@ -250,7 +254,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">כמה זה {botChallenge.a} + {botChallenge.b}?</label>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">כמה זה {botChallenge ? botChallenge.a : '…'} + {botChallenge ? botChallenge.b : '…'}?</label>
                   <input
                     type="number"
                     name="bot_answer"

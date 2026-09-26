@@ -1,5 +1,70 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Old article addresses -> readable ones (same list as vercel.json and data/insightsData.ts)
+[[redirects]]
+  from = "/insights/insight-1"
+  to = "/insights/pricing-story"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-2"
+  to = "/insights/what-is-strategy"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-3"
+  to = "/insights/invest-in-existing-customers"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-4"
+  to = "/insights/what-is-framing"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-5"
+  to = "/insights/small-fix-turning-point"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-6"
+  to = "/insights/ask-your-customers"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-7"
+  to = "/insights/reverse-funnel"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-8"
+  to = "/insights/lessons-learned"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-9"
+  to = "/insights/lead-sources"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-10"
+  to = "/insights/bad-business-habits"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-11"
+  to = "/insights/ads-fuel-mechanism-engine"
+  status = 301
+
+[[redirects]]
+  from = "/insights/insight-12"
+  to = "/insights/how-to-generate-customers"
+  status = 301
+
+# Prerendered pages are real files and are served first; anything else falls back to the app
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-

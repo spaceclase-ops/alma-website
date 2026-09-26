@@ -12,9 +12,11 @@ const About: React.FC = () => {
              <div className="relative">
                 <div className="absolute inset-0 bg-alma-primary rounded-3xl transform rotate-3 opacity-20"></div>
                 <img 
-                  src="/images/about-alma.png" 
-                  alt="ניב עיני, מייסד עלמה שיווק דיגיטלי, עומד בחיוך ומקרין סמכות מקצועית" 
+                  src="/images/about-alma.webp" 
+                  alt="ניב עיני, מייסד עלמה? – צמיחה ופיתוח עסקי, יושב מול תוכנית עבודה של מנגנון שיווק ומכירות"
                   className="relative rounded-3xl shadow-2xl w-full object-cover h-[500px] lg:h-[600px]"
+                  loading="lazy"
+                  decoding="async"
                 />
                 {/* Stats */}
                 <div className="absolute bottom-8 right-8 bg-white/95 backdrop-blur rounded-xl p-6 shadow-xl max-w-xs">

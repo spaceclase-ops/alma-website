@@ -12,7 +12,9 @@ export interface Insight {
   icon: any;
   color: string;
   bgColor: string;
-  image: string;
+  image: string;      // 1280px WebP (article page)
+  imageSmall: string; // 640px WebP (cards)
+  ogImage: string;    // 1200x750 JPEG (link previews / structured data)
 }
 
 const rawArticles = [
@@ -214,24 +216,32 @@ const calculateReadTime = (text: string) => {
   return Math.max(Math.ceil(words / 180), 3);
 };
 
-// מיפוי בין כותרות הכתבות לשמות קבצי התמונות (1920x1200)
-const titleToImageMap: { [key: string]: string } = {
-  "מה הסיפור של המחיר?": "/images/מה הסיפור של המחיר-1920.1200.png",
-  "מה זאת אסטרטגיה": "/images/מה זאת אסטרטגיה-1920.1200.png",
-  "למה להשקיע בלקוח קיים?": "/images/למה להשקיע בלקוח קיים-1920.1200.png",
-  "מה זה מסגור?": "/images/מה זה מסגור-1920.1200.png",
-  "תיקון קטן במנגנון יוצר נקודת מפנה בעסק": "/images/תיקון קטן במנגנון יוצר נקודת מפנה בעסק-1920.1200.png",
-  "למה לשאול שאלות את הלקוחות שלכם?": "/images/למה לשאול שאלות את הלקוחות שלכם-1920.1200.png",
-  "מה זה משפך הפוך?": "/images/מה זה משפך הפוך-1920.1200.png",
-  "חשיבות הפקת לקחים": "/images/חשיבות הפקת לקחים-1920.1200.png",
-  "הבנה למקורות הגעה": "/images/הבנה למקורות הגעה-1920.1200.png",
-  "הרגלים לא טובים של עסק": "/images/הרגלים לא טובים של העסק-1920.1200.png",
-  "פרסום זה דלק, מנגנון זה מנוע": "/images/פרסום זה דלק מנגנון זה מנוע-1920.1200.png",
-  "איך מייצרים לקוחות?": "/images/איך מייצרים לקוחות-1920.1200.png"
+// כתובת קבועה לכל כתבה (/insights/<slug>). התמונות נוצרו מקבצי ה-1920x1200 המקוריים
+// (למשל "מה הסיפור של המחיר-1920.1200.png") בשמות insight-<slug>-1280.webp,
+// insight-<slug>-640.webp ו-insight-<slug>-og.jpg.
+// אין לשנות slug קיים: הוא הכתובת של הכתבה בגוגל ובשיתופים.
+const slugById: { [id: number]: string } = {
+  1: 'pricing-story',
+  2: 'what-is-strategy',
+  3: 'invest-in-existing-customers',
+  4: 'what-is-framing',
+  5: 'small-fix-turning-point',
+  6: 'ask-your-customers',
+  7: 'reverse-funnel',
+  8: 'lessons-learned',
+  9: 'lead-sources',
+  10: 'bad-business-habits',
+  11: 'ads-fuel-mechanism-engine',
+  12: 'how-to-generate-customers'
 };
 
+// הכתובות הישנות (insight-1 ... insight-12) מופנות לכתובות החדשות, גם ב-vercel.json.
+export const legacyInsightSlugs: { [legacySlug: string]: string } = Object.fromEntries(
+  rawArticles.map(art => [`insight-${art.id}`, slugById[art.id]])
+);
+
 export const insights: Insight[] = rawArticles.map((art, idx) => {
-  const slug = `insight-${art.id}`;
+  const slug = slugById[art.id];
   const textParts = art.text.split('\n');
   const content = textParts[0];
   const fullContent = textParts.slice(1).map(p => `<p>${p}</p>`).join('');
@@ -248,6 +258,8 @@ export const insights: Insight[] = rawArticles.map((art, idx) => {
     icon: art.icon,
     color: art.color,
     bgColor: art.bgColor,
-    image: titleToImageMap[art.title] || ''
+    image: `/images/insight-${slug}-1280.webp`,
+    imageSmall: `/images/insight-${slug}-640.webp`,
+    ogImage: `/images/insight-${slug}-og.jpg`
   };
 });

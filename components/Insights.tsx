@@ -2,6 +2,7 @@ import React from 'react';
 import { Clock, ArrowLeft } from 'lucide-react';
 import { insights } from '../data/insightsData';
 import Button from './Button';
+import { isPlainLeftClick } from '../navigation';
 
 interface InsightsProps {
   onSelect?: (slug: string) => void;
@@ -25,14 +26,19 @@ const Insights: React.FC<InsightsProps> = ({ onSelect, onSeeAllClick }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {homeInsights.map((insight) => (
-            <div 
-              key={insight.slug} 
-              onClick={() => onSelect?.(insight.slug)}
+            <a
+              key={insight.slug}
+              href={`/insights/${insight.slug}`}
+              onClick={(e) => {
+                if (!onSelect || !isPlainLeftClick(e)) return;
+                e.preventDefault();
+                onSelect(insight.slug);
+              }}
               className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md hover:border-alma-primary/20 transition-all duration-300 flex flex-col sm:flex-row gap-6 items-start cursor-pointer group"
             >
               {insight.image ? (
                 <div className="w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <img src={insight.image} alt={insight.title} className="w-full h-full object-cover" />
+                  <img src={insight.imageSmall} alt={insight.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                 </div>
               ) : (
                 <div className={`w-14 h-14 rounded-2xl ${insight.bgColor} ${insight.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
@@ -56,7 +62,7 @@ const Insights: React.FC<InsightsProps> = ({ onSelect, onSeeAllClick }) => {
                   קראו את המאמר המלא &larr;
                 </span>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 

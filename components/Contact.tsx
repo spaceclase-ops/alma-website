@@ -14,10 +14,14 @@ const Contact: React.FC = () => {
     return true;
   };
 
-  const [botChallenge] = useState({
-    a: Math.floor(Math.random() * 10) + 1,
-    b: Math.floor(Math.random() * 10) + 1
-  });
+  // Drawn after mount so the prerendered HTML and the first client render match.
+  const [botChallenge, setBotChallenge] = useState<{ a: number; b: number } | null>(null);
+  useEffect(() => {
+    setBotChallenge({
+      a: Math.floor(Math.random() * 10) + 1,
+      b: Math.floor(Math.random() * 10) + 1
+    });
+  }, []);
 
   const [formState, setFormState] = useState({
     name: '',
@@ -39,7 +43,7 @@ const Contact: React.FC = () => {
     }
 
     // 2. Bot challenge
-    if (parseInt(formState.bot_answer) !== (botChallenge.a + botChallenge.b)) {
+    if (!botChallenge || parseInt(formState.bot_answer) !== (botChallenge.a + botChallenge.b)) {
       alert("נא להזין תשובה נכונה לשאלת האבטחה.");
       return;
     }
@@ -201,7 +205,7 @@ const Contact: React.FC = () => {
                   value={formState.phone}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-alma-primary focus:ring-2 focus:ring-alma-primary/20 outline-none transition-all"
-                  placeholder="055-7294069"
+                  placeholder="05X-XXXXXXX"
                 />
               </div>
               <div>
@@ -220,7 +224,7 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="bot_answer" className="block text-sm font-medium text-gray-700 mb-1">כמה זה {botChallenge.a} ועוד {botChallenge.b}?</label>
+                <label htmlFor="bot_answer" className="block text-sm font-medium text-gray-700 mb-1">כמה זה {botChallenge ? botChallenge.a : '…'} ועוד {botChallenge ? botChallenge.b : '…'}?</label>
                 <input
                   type="number"
                   id="bot_answer"

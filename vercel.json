@@ -1,9 +1,80 @@
 {
-  "rewrites": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/insights/insight-1",
+      "destination": "/insights/pricing-story",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-2",
+      "destination": "/insights/what-is-strategy",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-3",
+      "destination": "/insights/invest-in-existing-customers",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-4",
+      "destination": "/insights/what-is-framing",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-5",
+      "destination": "/insights/small-fix-turning-point",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-6",
+      "destination": "/insights/ask-your-customers",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-7",
+      "destination": "/insights/reverse-funnel",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-8",
+      "destination": "/insights/lessons-learned",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-9",
+      "destination": "/insights/lead-sources",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-10",
+      "destination": "/insights/bad-business-habits",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-11",
+      "destination": "/insights/ads-fuel-mechanism-engine",
+      "permanent": true
+    },
+    {
+      "source": "/insights/insight-12",
+      "destination": "/insights/how-to-generate-customers",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
-

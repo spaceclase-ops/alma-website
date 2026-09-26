@@ -3,15 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Facebook } from 'lucide-react';
 import Button from './Button';
 import { NavItem } from '../types';
+import { isPlainLeftClick } from '../navigation';
 
 const navItems: NavItem[] = [
-  { label: 'ראשי', href: '#home' },
-  { label: 'שירותים', href: '#services' },
-  { label: 'קצת עלינו', href: '#about' },
-  { label: 'המלצות', href: '#testimonials' },
-  { label: 'תובנות', href: '#insights' },
-  { label: 'שאלות נפוצות', href: '#faq' },
-  { label: 'צור קשר', href: '#contact' },
+  { label: 'ראשי', href: '#home', path: '/' },
+  { label: 'שירותים', href: '#services', path: '/services' },
+  { label: 'קצת עלינו', href: '#about', path: '/about' },
+  { label: 'המלצות', href: '#testimonials', path: '/testimonials' },
+  { label: 'תובנות', href: '#insights', path: '/insights' },
+  { label: 'שאלות נפוצות', href: '#faq', path: '/faq' },
+  { label: 'צור קשר', href: '#contact', path: '/contact' },
 ];
 
 interface HeaderProps {
@@ -146,9 +147,9 @@ const Header: React.FC<HeaderProps> = ({
               return (
                 <a
                   key={item.label}
-                  href={item.href}
+                  href={item.path ?? item.href}
                   onClick={(e) => {
-                    if (isSpecial) {
+                    if (isSpecial && isPlainLeftClick(e)) {
                       e.preventDefault();
                       handleLinkClick(item.href);
                     }
@@ -202,8 +203,9 @@ const Header: React.FC<HeaderProps> = ({
           {navItems.map((item) => (
             <a
               key={item.label}
-              href={item.href}
+              href={item.path ?? item.href}
               onClick={(e) => {
+                if (!isPlainLeftClick(e)) return;
                 e.preventDefault();
                 handleLinkClick(item.href);
               }}

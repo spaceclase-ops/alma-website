@@ -10,7 +10,7 @@ const testimonials: TestimonialItem[] = [
     name: 'רשת גרייט שייפ',
     role: 'ירון סלע | מנכ"ל ובעלים',
     content: 'It is with great pleasure that I am writing the following paragraphs on behalf of Niv and his work with Great-Shape Health and Fitness clubs. I have been working with Niv for the past 7 years in different capacities. 7 years ago, Niv was the Sales VP for the second largest Country Club in Israel. Within a matter of only a few months, Niv adopted the innovative methods and protocols of our chain, and the sales grew by 25-30%. Working closely with Niv, and seeing his prior knowledge and curiosity regarding Marketing, we decided that Niv and his team would become the Marketing Agency for the Country Club. After 6 months, in which we measured KPIs, the results showed a significant growth both in the number of leads and their quality, that were generated from Social media, at the same budget. We have transferred the account of the whole chain to Niv\'s Marketing Agency. This act has proven to be one of the most lucrative decisions we have made.',
-    image: '/images/great-shape.png'
+    image: '/images/great-shape.webp'
   },
   {
     id: '6',
@@ -24,7 +24,7 @@ const testimonials: TestimonialItem[] = [
     name: 'SMOOVEE',
     role: 'טל | מנכ"ל',
     content: 'עלמה הוא המשרד פרסום לעסק שלי מהיום הראשון ואנחנו יותר ממרוצים ממנו!השירות מצויין, יצירתיות זה שם המפתח עומד בכל תנאי האופטימיזציה שלנו והכי חשוב תמיד זמין לשגעונות שלנו! ממולץ בחום!',
-    image: '/images/Smoovee.png'
+    image: '/images/Smoovee.webp'
   }
 ];
 
@@ -49,7 +49,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ onSeeAllClick }) => {
               </div>
               
               <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-alma-light mb-4 shadow-md bg-white">
-                <img src={item.image} alt={item.name} className="w-full h-full object-contain p-2" />
+                <img src={item.image} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-contain p-2" />
               </div>
               
               <div className="mb-4">

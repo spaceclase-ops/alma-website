@@ -3,7 +3,7 @@ import { Layout, Share2, TrendingUp, PenTool, Smartphone, Target, ArrowLeft } fr
 import { ServiceItem } from '../types';
 import Button from './Button';
 
-const services: ServiceItem[] = [
+export const services: ServiceItem[] = [
   {
     id: '1',
     title: 'יצירת זהות לעסק שלך',
