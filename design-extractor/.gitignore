@@ -1,0 +1,4 @@
+node_modules/
+# Licensed/copyrighted binaries stay local — the report lists them.
+sites/*/fonts/
+sites/*/images/
