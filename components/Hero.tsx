@@ -21,6 +21,7 @@ const Hero: React.FC<HeroProps> = ({ onContactClick, onServicesClick }) => {
           
           <div className="lg:w-1/2 text-center lg:text-right">
             <h2 className="text-alma-primary font-semibold text-lg mb-4 tracking-wider uppercase">
+              צמיחה ופיתוח עסקי<span className="hidden sm:inline"> | </span><br className="sm:hidden" />
               אבחון ובניית מנגנוני שיווק ומכירות
             </h2>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-alma-dark leading-tight mb-6">
