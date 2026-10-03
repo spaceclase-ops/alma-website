@@ -8,9 +8,12 @@
 שאלות נפוצות, צור קשר, 4 דפים משפטיים.
 
 - ריפו: `spaceclase-ops/alma-website`, ענף `main` = production.
-- אחסון: Vercel. כתובת Vercel: `alma-website-ten.vercel.app` (שדה Website בריפו).
-  הדומיין `alma-ads.co.il` מפנה ב-DNS ל-Vercel. הפרויקט נמצא בחשבון Vercel שאינו
-  "almaads' projects" (כנראה של spaceclase-ops).
+- GitHub: הריפו שייך לחשבון spaceclase-ops. אפליקציית Claude מותקנת עליו (רק על alma-website),
+  ו-Claude מחובר דרך almaads2010niv (collaborator עם הרשאת כתיבה). לא לחבר את Claude ל-spaceclase-ops:
+  זה מסתיר את שאר הפרויקטים של almaads2010niv.
+- אחסון: Vercel, פרויקט `alma-website` בצוות `nivs-projects-40e222c4` (לא "almaads' projects").
+  כתובת Vercel: `alma-website-ten.vercel.app`, דומיין: `alma-ads.co.il`.
+  כל push לענף יוצר Preview מוגן; גישה ניתנת ב-Team Settings ← Deployment Protection ← External Access.
 - `netlify.toml` קיים כגיבוי בלבד.
 
 ## טכנולוגיות
