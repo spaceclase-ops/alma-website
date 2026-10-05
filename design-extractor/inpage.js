@@ -249,6 +249,21 @@
     const imageKind = img ? (img.includes('url(') ? (img.includes('gradient') ? 'image+gradient' : 'image') : 'gradient') : null;
     return { color: color || '#ffffff', from: color ? from : 'default', image: img, imageKind, size: img ? cs.backgroundSize : null, position: img ? cs.backgroundPosition : null, attachment: img ? cs.backgroundAttachment : null };
   }
+  // A transparent wrapper (Elementor <footer> / section) often gets its color from an inner
+  // container that fills it — that inner paint is what the visitor sees, not the page behind.
+  function paintedBg(el) {
+    const own = effectiveBg(el);
+    if (own.from === 'self' || own.image) return own;
+    const r = el.getBoundingClientRect();
+    if (r.width * r.height < 1) return own;
+    const fill = [...el.querySelectorAll('div, section, footer, header, main, article')].slice(0, 400).find((e) => {
+      const c = getComputedStyle(e);
+      if (!normColor(c.backgroundColor) && c.backgroundImage === 'none') return false;
+      const rr = e.getBoundingClientRect();
+      return rr.width >= r.width * 0.9 && rr.height >= r.height * 0.6 && shown(e, c);
+    });
+    return fill ? { ...effectiveBg(fill), from: describe(fill) } : own;
+  }
   function overlaysOf(el) {
     const r = el.getBoundingClientRect();
     const out = [];
@@ -331,7 +346,7 @@
     return sectionize().slice(0, 80).map(({ el, inner }, i) => {
       const r = el.getBoundingClientRect();
       const cs = getComputedStyle(el), ics = getComputedStyle(inner);
-      const bg = effectiveBg(el);
+      const bg = paintedBg(el);
       if (!bg.image && inner !== el) { const ib = getComputedStyle(inner).backgroundImage; if (ib !== 'none') bg.image = cut(ib, 400); }
       const overlays = overlaysOf(el);
       const hs = [...el.querySelectorAll('h1,h2,h3,h4,h5,h6')].filter((h) => shown(h) && clean(h.innerText));
@@ -404,14 +419,30 @@
       paint = [...h.querySelectorAll('*')].find((e) => { const c = getComputedStyle(e); const rr = e.getBoundingClientRect(); return hasPaint(c) && rr.width >= r.width * 0.9 && rr.height >= 30 && shown(e, c); }) || h;
     }
     const pcs = getComputedStyle(paint);
+    const pr = paint.getBoundingClientRect();
     const pinned = [h, ...h.querySelectorAll('*')].filter((e) => { const p = getComputedStyle(e).position; return (p === 'fixed' || p === 'sticky') && e.getBoundingClientRect().width >= r.width * 0.8; }).map((e) => ({ el: describe(e), position: getComputedStyle(e).position }));
     const probe = document.elementFromPoint(innerWidth / 2, 4);
-    const logo = [...h.querySelectorAll('img, svg')].find((e) => { const b = e.getBoundingClientRect(); return shown(e) && b.height >= 16 && b.width >= 30; });
+    // The first picture in the header is often an icon or a Lottie animation, not the logo.
+    const logoScore = (e) => {
+      let sig = '', s = 0;
+      for (let a = e, d = 0; a && a !== h && d < 5; a = a.parentElement, d++) sig += ` ${a.id} ${typeof a.className === 'string' ? a.className : a.getAttribute('class') || ''} ${a.getAttribute('alt') || ''} ${a.getAttribute('src') || ''}`;
+      if (/logo/i.test(sig)) s += 5;
+      const home = e.closest('a')?.getAttribute('href') || '';
+      if (/^(\/|https?:\/\/[^/]+\/?)$/.test(home)) s += 3;
+      if (/lottie/i.test(sig)) s -= 6;
+      const b = e.getBoundingClientRect();
+      if (b.width / b.height >= 2) s += 1;
+      return s;
+    };
+    const logo = [...h.querySelectorAll('img, svg')].filter((e) => { const b = e.getBoundingClientRect(); return shown(e) && b.height >= 16 && b.width >= 30; }).map((e, i) => ({ e, s: logoScore(e) - i * 0.01 })).sort((a, b) => b.s - a.s)[0]?.e;
     const lb = logo && logo.getBoundingClientRect();
     return {
       dx: tag(h), el: describe(h), scrollY: r0(scrollY), top: r1(r.top), height: r1(r.height), position: cs.position, pinned,
       paint: describe(paint), bg: withAlpha(normColor(pcs.backgroundColor), +pcs.opacity), bgImage: pcs.backgroundImage !== 'none' ? cut(pcs.backgroundImage, 200) : null,
-      shadow: pcs.boxShadow !== 'none' ? pcs.boxShadow : null, borderBottom: borderOf(pcs, 'Bottom'), backdrop: pcs.backdropFilter !== 'none' ? pcs.backdropFilter : null,
+      shadow: pcs.boxShadow !== 'none' ? pcs.boxShadow : null, borderBottom: borderOf(pcs, 'Bottom'),
+      // Floating "pill" headers: the painted bar is narrower than the header and rounded.
+      bar: paint !== h ? { w: r1(pr.width), h: r1(pr.height), insetX: r1(pr.left - r.left), insetTop: r1(pr.top - r.top), radius: pcs.borderRadius, border: borderOf(pcs, 'Top'), padding: padOf(pcs) } : null,
+      backdrop: pcs.backdropFilter !== 'none' ? pcs.backdropFilter : null,
       classes: typeof h.className === 'string' ? h.className.slice(0, 200) : '',
       coversTop: !!(probe && (h.contains(probe) || probe.closest(HEADER_SEL))),
       logo: logo ? { tag: logo.tagName.toLowerCase(), src: logo.currentSrc || logo.src || null, alt: logo.alt || null, w: r1(lb.width), h: r1(lb.height), x: r1(lb.left), dx: tag(logo), svg: logo.tagName.toLowerCase() === 'svg' ? logo.outerHTML.slice(0, 200000) : null } : null,
@@ -458,7 +489,7 @@
     const copy = [...f.querySelectorAll('*')].find((e) => /©|כל הזכויות|all rights reserved/i.test(ownText(e)));
     const r = f.getBoundingClientRect();
     return {
-      dx: tag(f), el: describe(f), height: r1(r.height), bg: effectiveBg(f), paddingY: [cs.paddingTop, cs.paddingBottom],
+      dx: tag(f), el: describe(f), height: r1(r.height), bg: paintedBg(f), paddingY: [cs.paddingTop, cs.paddingBottom],
       textColors: Object.entries(texts).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([c]) => c),
       columns: columnsOf(f), headingStyle: headings[0] ? styleOfText(headings[0]) : null, headings: headings.slice(0, 8).map((h) => cut(h.innerText, 40)),
       linkStyle: link ? styleOfText(link) : null,
@@ -544,7 +575,8 @@
       jquery: !!window.jQuery, gsap: !!(window.gsap || window.TweenMax), scrollTrigger: !!window.ScrollTrigger,
       aos: has('[data-aos]'), wow: has('.wow'), animateCss: has('.animate__animated, .animated'),
       swiper: has('.swiper, .swiper-container'), slick: has('.slick-slider'), owl: has('.owl-carousel'), splide: has('.splide'), flickity: has('.flickity-enabled'),
-      lottie: has('lottie-player, dotlottie-player') || !!(window.lottie || window.bodymovin),
+      lottie: has('lottie-player, dotlottie-player, .elementor-widget-lottie') || !!(window.lottie || window.bodymovin),
+      wpRocket: has('script[data-rocket-status], script[type="rocketlazyloadscript"], script[data-rocket-src]'),
       smoothScroll: has('html.lenis, [data-scroll-container]') || !!window.lenis,
       fontAwesome: has('[class*="fa-"], .fa, .fas, .far, .fab'), googleFonts: anyRes(/fonts\.(googleapis|gstatic)\.com/) || has('link[href*="fonts.googleapis"]'), typekit: anyRes(/typekit\.net/),
       accessibilityWidget: has('#enable-toolbar, .enable-toolbar, #userwayAccessibilityIcon, .uwy, #nagishli, #acsb, [class*="accessibility"], [id*="accessibility"], [aria-label*="נגישות"]'),
@@ -910,8 +942,13 @@
       const r = el.getBoundingClientRect();
       if (r.width < 14 || r.height < 14 || r.width > 160 || r.height > 120 || r.top > 300) continue;
       const sig = `${el.id} ${typeof el.className === 'string' ? el.className : ''} ${el.getAttribute('aria-label') || ''} ${el.getAttribute('title') || ''}`;
+      // Builders put the meaning on the wrapper (Elementor: div.mobile-menu > … > a.elementor-icon).
+      let wrap = '';
+      for (let a = el.parentElement, d = 0; a && a !== root && d < 3; a = a.parentElement, d++) wrap += ` ${a.id} ${typeof a.className === 'string' ? a.className : ''}`;
       let score = 0;
       if (MENU_RE.test(sig)) score += 4;
+      else if (MENU_RE.test(wrap)) score += 3;
+      if (/search|חיפוש/i.test(sig + wrap)) score -= 8;
       if (el.hasAttribute('aria-expanded')) score += 2;
       if (el.querySelector('svg, i') || el.querySelectorAll('span').length >= 3) score += 1;
       if (Math.abs(r.width - r.height) < 16 && r.width <= 70) score += 1;

@@ -27,12 +27,40 @@ const VIEWPORTS = {
 
 // Entrance animations (AOS, WOW, Elementor) keep content invisible until it scrolls into view;
 // after the scroll-through we pin everything to its final, visible state so screenshots are complete.
+// content-visibility:auto (WP Rocket "lazy render" and similar) skips painting off-screen
+// sections, which leaves them blank in full-page and section screenshots.
 const STABILIZE_CSS = `
 html { scroll-behavior: auto !important; }
+*, *::before, *::after { content-visibility: visible !important; }
 [data-aos] { opacity: 1 !important; transform: none !important; visibility: visible !important; }
 .elementor-invisible { visibility: visible !important; opacity: 1 !important; }
 .wow { visibility: visible !important; animation-name: none !important; }
+.elementor-motion-effects-layer { opacity: 1 !important; }
 `;
+// Elementor's scroll "transparency" effect fades background layers in and out by scroll
+// position — at scrollY 0 everything further down is at opacity 0 (pinned visible above).
+
+// Lazy-load libraries (WP Rocket, lazysizes, a3) park a data: placeholder in src and only swap
+// in the real image when it scrolls — or slides — into view. Carousel slides never do.
+async function forceLazyMedia(page) {
+  return page.evaluate(async () => {
+    const swapped = [];
+    for (const el of document.querySelectorAll('img, source')) {
+      const src = el.getAttribute('data-lazy-src') || el.getAttribute('data-src');
+      const set = el.getAttribute('data-lazy-srcset') || el.getAttribute('data-srcset');
+      const cur = el.getAttribute(el.tagName === 'SOURCE' ? 'srcset' : 'src') || '';
+      if (el.tagName === 'IMG' && el.loading === 'lazy') el.loading = 'eager';
+      if (!src && !set) continue;
+      if (cur && !cur.startsWith('data:')) continue;
+      if (set) el.setAttribute('srcset', set);
+      if (src && el.tagName === 'IMG') el.setAttribute('src', src);
+      swapped.push(el);
+    }
+    const imgs = swapped.filter((e) => e.tagName === 'IMG');
+    await Promise.race([Promise.all(imgs.map((i) => (i.decode ? i.decode().catch(() => {}) : null))), new Promise((r) => setTimeout(r, 8000))]);
+    return swapped.length;
+  }).catch(() => 0);
+}
 
 const HELP = `Design Extractor ${VERSION}
 
@@ -258,6 +286,7 @@ async function open(page, url, opts) {
       const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: opts.timeout });
       await page.waitForLoadState('load', { timeout: Math.min(opts.timeout, 45000) }).catch(() => {});
       await page.waitForLoadState('networkidle', { timeout: 12000 }).catch(() => {});
+      page.__delayedScripts = await releaseDelayedScripts(page); // goto() returns null for file:// pages
       await page.evaluate(() => (document.fonts ? document.fonts.ready.then(() => true) : true)).catch(() => {});
       if (opts.wait) await page.waitForTimeout(opts.wait * 1000);
       return res;
@@ -268,6 +297,26 @@ async function open(page, url, opts) {
     }
   }
   throw last;
+}
+
+// Speed plugins (WP Rocket "delay JS", Perfmatters, Flying Scripts, LiteSpeed) hold back every
+// script — jQuery, Elementor, sliders, sticky headers — until the first user interaction.
+// A real visitor always interacts, so we do it for them and wait until the scripts have run.
+const HELD_SCRIPTS = 'script[type="rocketlazyloadscript"], script[type="pmdelayedscript"], script[type="lazyscript"], script[type="litespeed/javascript"], script[type="text/plain"][data-src]';
+async function releaseDelayedScripts(page) {
+  const held = await page.evaluate((sel) => document.querySelectorAll(sel).length, HELD_SCRIPTS).catch(() => 0);
+  await page.mouse.move(40, 40).catch(() => {});
+  await page.mouse.move(140, 180).catch(() => {});
+  await page.evaluate(() => {
+    for (const t of ['mousemove', 'keydown', 'touchstart', 'touchmove', 'wheel', 'scroll']) {
+      window.dispatchEvent(new Event(t)); document.dispatchEvent(new Event(t));
+    }
+  }).catch(() => {});
+  if (!held) return 0;
+  await page.waitForFunction((sel) => !document.querySelector(sel), HELD_SCRIPTS, { timeout: 15000 }).catch(() => {});
+  await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+  await page.waitForTimeout(800);
+  return held;
 }
 
 async function botWall(page) {
@@ -536,7 +585,7 @@ async function saveBrand(page, data, net, dirs) {
   const logo = data.header?.logo;
   const out = {};
   if (!logo) return out;
-  if (logo.svg) { await fsp.writeFile(path.join(dirs.brand, 'logo.svg'), logo.svg); out.svg = 'brand/logo.svg'; }
+  if (logo.svg) { await fsp.writeFile(path.join(dirs.brand, 'logo.svg'), logo.svg.replace(/ data-dx="\d+"/g, '')); out.svg = 'brand/logo.svg'; }
   else if (logo.src) {
     const e = net.entries.get(logo.src);
     if (e?.file) { const ext = path.extname(e.file) || '.img'; await fsp.copyFile(path.join(dirs.root, e.file), path.join(dirs.brand, `logo-source${ext}`)).catch(() => {}); out.source = `brand/logo-source${ext}`; }
@@ -557,6 +606,7 @@ async function captureView(ctx, url, vp, info, opts, dirs, net) {
     const res = await open(page, url, opts);
     stage = 'prepare';
     v.status = res?.status() ?? null;
+    v.delayedScripts = page.__delayedScripts || 0;
     v.finalUrl = page.url();
     if (v.status && v.status >= 400) v.warnings.push(`HTTP ${v.status}`);
     const wall = await botWall(page);
@@ -565,6 +615,7 @@ async function captureView(ctx, url, vp, info, opts, dirs, net) {
     await page.waitForTimeout(1200);
     v.overlays.push(...(await handleOverlays(page, dirs, `${label}-load`)));
     v.scroll = await scrollThrough(page);
+    v.lazyForced = await forceLazyMedia(page);
     await page.addStyleTag({ content: STABILIZE_CSS }).catch(() => v.warnings.push('could not inject stabilizing CSS'));
     v.overlays.push(...(await handleOverlays(page, dirs, `${label}-late`)));
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));

@@ -1,0 +1,12 @@
+
+			.fix_ur_web_side_icon{
+    bottom: 10% !important;
+
+}
+
+@media only screen and (max-width: 768px) {
+    #enable-toolbar {
+        display: none;
+    }
+}
+		

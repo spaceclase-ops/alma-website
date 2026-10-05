@@ -47,15 +47,17 @@ function page({ title, body, portB }) {
 <body>
 <header class="site-header">
   <div class="container bar">
+    <div class="elementor-widget-lottie"><svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#f5a623"/></svg></div>
     <a class="logo" href="/" aria-label="דף הבית"><svg width="132" height="40" viewBox="0 0 132 40"><rect width="132" height="40" rx="8" fill="#0a5ea8"/><text x="66" y="27" text-anchor="middle" font-size="18" fill="#fff" font-family="Arial">LOGO</text></svg></a>
     <nav class="main-nav"><a href="/about.html">אודות</a><a href="/services/one.html">שירותים</a><a href="/services/two.html">שירות נוסף</a><a href="/contact.html">צור קשר</a></nav>
     <a class="btn btn-primary header-cta" href="/contact.html">דברו איתנו</a>
-    <button class="menu-toggle" aria-label="תפריט" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="search-form"><button class="search-form__toggle" type="button"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="8" cy="8" r="6" fill="none" stroke="#1d2433" stroke-width="2"/></svg></button></div>
+    <div class="mobile-menu"><div class="icon-wrapper"><a class="icon-link" href="#menu"><span></span><span></span><span></span></a></div></div>
   </div>
   <nav class="mobile-panel" hidden><a href="/about.html">אודות</a><a href="/services/one.html">שירותים</a><a href="/contact.html">צור קשר</a><a href="/privacy.html">פרטיות</a></nav>
 </header>
 <main>${body}</main>
-<footer class="site-footer">
+<footer class="site-footer"><div class="footer-inner">
   <div class="container cols">
     <div><h4>הסטודיו</h4><p>סטודיו לעיצוב ופיתוח אתרים. אנחנו בונים חוויות דיגיטליות.</p></div>
     <div><h4>ניווט</h4><a href="/about.html">אודות</a><a href="/contact.html">צור קשר</a></div>
@@ -63,15 +65,17 @@ function page({ title, body, portB }) {
     <div><h4>עקבו</h4><a href="https://facebook.com/x">פייסבוק</a><a href="https://instagram.com/x">אינסטגרם</a></div>
   </div>
   <div class="container copy">© 2026 כל הזכויות שמורות לסטודיו בדיקה</div>
-</footer>
+</div></footer>
 <a class="whatsapp-float" href="https://wa.me/972500000000" aria-label="וואטסאפ">WA</a>
 <div class="popup-modal" id="promo-popup" role="dialog" aria-modal="true"><div class="box"><h3>מבצע השקה</h3><p>הצטרפו לרשימת התפוצה וקבלו 10% הנחה.</p><button class="btn btn-primary">הרשמה</button></div></div>
 <div class="cookie-bar">אנחנו משתמשים בעוגיות כדי לשפר את חוויית הגלישה. <button class="btn btn-outline">אישור</button></div>
+<script type="rocketlazyloadscript">document.querySelectorAll('.late-note').forEach(function (e) { e.textContent = 'נטען אחרי אינטראקציה'; });</script>
+<script>(function () { var ev = ['mousemove', 'keydown', 'touchstart', 'wheel']; var go = function () { ev.forEach(function (t) { removeEventListener(t, go); }); document.querySelectorAll('script[type="rocketlazyloadscript"]').forEach(function (s) { var n = document.createElement('script'); n.textContent = s.textContent; s.replaceWith(n); }); }; ev.forEach(function (t) { addEventListener(t, go, { passive: true }); }); })();</script>
 <script>
   setTimeout(function () { document.getElementById('promo-popup').classList.add('open'); }, 300);
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('aos-animate'); }); });
   document.querySelectorAll('[data-aos]').forEach(function (el) { io.observe(el); });
-  document.querySelector('.menu-toggle').addEventListener('click', function () { var p = document.querySelector('.mobile-panel'); p.hidden = !p.hidden; this.setAttribute('aria-expanded', String(!p.hidden)); });
+  document.querySelector('.icon-link').addEventListener('click', function (e) { e.preventDefault(); var p = document.querySelector('.mobile-panel'); p.hidden = !p.hidden; });
   addEventListener('scroll', function () { document.querySelector('.site-header').classList.toggle('is-scrolled', scrollY > 50); });
 </script>
 </body>
@@ -89,8 +93,9 @@ body { margin: 0; font-family: "Fixture Sans", Arial, sans-serif; color: var(--i
 .main-nav { display: flex; gap: 28px; }
 .main-nav a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 16px; transition: color .2s ease; }
 .main-nav a:hover { color: var(--brand); }
-.menu-toggle { display: none; width: 44px; height: 44px; flex-direction: column; justify-content: center; gap: 5px; background: none; border: 0; padding: 8px; }
-.menu-toggle span { display: block; height: 3px; background: var(--ink); border-radius: 2px; }
+.search-form__toggle { width: 36px; height: 36px; background: none; border: 0; padding: 8px; }
+.icon-link { display: none; width: 44px; height: 44px; flex-direction: column; justify-content: center; gap: 5px; padding: 8px; }
+.icon-link span { display: block; height: 3px; background: var(--ink); border-radius: 2px; }
 .mobile-panel { position: fixed; top: 84px; left: 0; right: 0; background: var(--ink); padding: 24px; z-index: 40; }
 .mobile-panel[hidden] { display: none; }
 .mobile-panel a { display: block; color: #fff; font-size: 20px; padding: 12px 0; text-decoration: none; }
@@ -124,15 +129,17 @@ h3 { font-size: 22px; line-height: 1.3; margin: 16px 0 8px; font-weight: 700; }
 .stats strong { display: block; font-size: 48px; color: var(--brand-2); }
 [data-aos] { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
 [data-aos].aos-animate { opacity: 1; transform: none; }
-.cta-band { background: var(--brand-2); padding: 56px 0; text-align: center; }
+.cta-band { background: var(--brand-2); padding: 56px 0; text-align: center; position: relative; }
+.cta-band .container { position: relative; }
 .contact-sec form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 760px; }
 input, textarea { height: 52px; border: 1px solid #d6dbe4; border-radius: 10px; padding: 0 16px; font: inherit; font-size: 16px; background: #fff; }
 input::placeholder, textarea::placeholder { color: #9aa3b2; }
 textarea { height: 140px; grid-column: 1 / -1; padding-top: 12px; }
+.faq { content-visibility: auto; contain-intrinsic-size: auto 500px; }
 .faq details { border-bottom: 1px solid #e5e7eb; padding: 18px 0; }
 .two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
 .two-col img { width: 100%; border-radius: 16px; }
-.site-footer { background: #0b1f33; color: #c7d0dd; padding: 72px 0 24px; }
+.footer-inner { background: #0b1f33; color: #c7d0dd; padding: 72px 0 24px; }
 .site-footer .cols { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
 .site-footer h4 { color: #fff; font-size: 18px; margin: 0 0 16px; }
 .site-footer a { color: #c7d0dd; text-decoration: none; display: block; padding: 4px 0; }
@@ -151,7 +158,7 @@ textarea { height: 140px; grid-column: 1 / -1; padding-top: 12px; }
   h2 { font-size: 30px; }
   section { padding: 56px 0; }
   .main-nav, .header-cta { display: none; }
-  .menu-toggle { display: flex; }
+  .icon-link { display: flex; }
   .bar { height: 68px; }
   .mobile-panel { top: 68px; }
   .logos .row { flex-wrap: wrap; gap: 16px; justify-content: center; }
@@ -187,7 +194,7 @@ const HOME_BODY = `
   <h2>במספרים</h2>
   <div class="grid4"><div><strong>120+</strong>פרויקטים</div><div><strong>15</strong>שנות ניסיון</div><div><strong>98%</strong>שביעות רצון</div><div><strong>24/7</strong>תמיכה</div></div>
 </div></section>
-<section class="cta-band"><div class="container"><h2>מוכנים להתחיל?</h2><a class="btn btn-primary" href="/contact.html">דברו איתנו עכשיו</a></div></section>
+<section class="cta-band"><div class="elementor-motion-effects-layer" style="position:absolute;inset:0;opacity:0;background-image:linear-gradient(#f5a623,#f5a623)"></div><div class="container"><h2>מוכנים להתחיל?</h2><p class="late-note"></p><a class="btn btn-primary" href="/contact.html">דברו איתנו עכשיו</a></div></section>
 <section class="contact-sec"><div class="container">
   <h2>השאירו פרטים</h2>
   <form><input placeholder="שם מלא"><input placeholder="טלפון"><input placeholder="אימייל" type="email"><input placeholder="חברה"><textarea placeholder="איך נוכל לעזור?"></textarea><button class="btn btn-primary" type="submit">שליחה</button></form>
@@ -197,6 +204,7 @@ const HOME_BODY = `
   <details><summary>כמה זמן לוקח לבנות אתר?</summary><p>בין שלושה לשמונה שבועות, תלוי בהיקף.</p></details>
   <details><summary>האם האתר מותאם למובייל?</summary><p>כן, כל אתר נבנה קודם כל למובייל.</p></details>
   <img loading="lazy" src="/img/lazy.svg" alt="תמונה עצלה" width="300" height="120">
+  <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20120'%3E%3C/svg%3E" data-lazy-src="/img/lazy.svg" alt="שקופית עצלה" width="300" height="120">
 </div></section>`;
 
 const INNER = (h1, extra = '') => `
@@ -305,7 +313,16 @@ async function main() {
   check('no widget shadow in shadow tokens', !t.shadow.some((sh) => sh.on.includes('widget')), t.shadow.map((sh) => sh.value).join(' | '));
   check('pulsing widget is not reported as a hover effect', !t.components.links.some((l) => /wa/i.test(l.samples.join(' '))) && !(raw.pages[0].views.desktop.hover || []).some((h) => /^WA$/.test(h.label)));
   check('site design variables captured (--radius-card: 14px)', t.designVariables?.['--radius-card'] === '14px', JSON.stringify(t.designVariables));
-  check('saved HTML is clean of extractor markers', !(await fsp.readFile(path.join(out, 'pages', '01-home.html'), 'utf8')).includes('data-dx='));
+  const homeHtml = await fsp.readFile(path.join(out, 'pages', '01-home.html'), 'utf8');
+  check('delayed scripts (WP Rocket style) released before measuring', homeHtml.includes('נטען אחרי אינטראקציה') && raw.pages[0].views.desktop.delayedScripts === 1, String(raw.pages[0].views.desktop.delayedScripts));
+  check('content-visibility:auto section measured and painted', home.sections.some((s) => /שאלות נפוצות/.test(s.heading?.text || '')));
+  check('transparent <footer> takes the color of its inner container', near(raw.pages[0].views.desktop.data.footer?.bg?.color, '#0b1f33'), raw.pages[0].views.desktop.data.footer?.bg?.color);
+  check('hamburger found through its wrapper, search toggle ignored', /icon-link/.test(t.components.mobileMenu?.toggle?.el || ''), t.components.mobileMenu?.toggle?.el);
+  check('placeholder lazy image (data-lazy-src) swapped in for screenshots', homeHtml.includes('<img src="/img/lazy.svg" data-lazy-src') && raw.pages[0].views.desktop.lazyForced >= 1, String(raw.pages[0].views.desktop.lazyForced));
+  const cta = raw.pages[0].views.desktop.data.sections.find((sec) => /מוכנים להתחיל/.test(sec.heading?.text || ''));
+  check('scroll-faded Elementor background layer shown at full opacity', cta?.overlays?.some((o) => o.opacity === 1), JSON.stringify(cta?.overlays));
+  check('logo = the wordmark, not the Lottie icon before it', t.components.header.desktop?.logo?.w === 132, JSON.stringify(t.components.header.desktop?.logo && { w: t.components.header.desktop.logo.w, h: t.components.header.desktop.logo.h }));
+  check('saved HTML and logo are clean of extractor markers', !(await fsp.readFile(path.join(out, 'pages', '01-home.html'), 'utf8')).includes('data-dx=') && !(await fsp.readFile(path.join(out, 'brand', 'logo.svg'), 'utf8')).includes('data-dx='));
   const md = await fsp.readFile(path.join(out, 'report.md'), 'utf8');
   const missing = [...md.matchAll(/(?:src="|\]\()([^")]+\.(?:png|jpg|svg))/g)].map((m) => m[1]).filter((f) => !fs.existsSync(path.join(out, f)));
   check('every image referenced by report.md exists', missing.length === 0, missing.slice(0, 3).join(', '));

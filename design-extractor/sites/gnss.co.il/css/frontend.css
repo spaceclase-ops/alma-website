@@ -1,0 +1,29 @@
+.gnss-aigeo-faq {
+  margin-block: 2.5rem;
+}
+
+.gnss-aigeo-faq > h2 {
+  margin-bottom: 1rem;
+}
+
+.gnss-aigeo-faq-item {
+  margin: 0 0 .75rem;
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: .5rem;
+}
+
+.gnss-aigeo-faq-item summary {
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.gnss-aigeo-faq-answer {
+  padding: 0 1rem 1rem;
+}
+
+.gnss-aigeo-faq-answer > :last-child {
+  margin-bottom: 0;
+}
+

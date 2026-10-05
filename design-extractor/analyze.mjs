@@ -649,6 +649,8 @@ function reportMd(x) {
   const stack = Object.entries(tech).filter(([k, v]) => v && k !== 'generator' && !WIDGET_KEYS.includes(k)).map(([k]) => k);
   const widgets = WIDGET_KEYS.filter((k) => tech[k]);
   L.push('', `**Built with:** ${tech.generator ? code(tech.generator) + ' · ' : ''}${stack.join(', ') || 'plain HTML/CSS'}${widgets.length ? ` · **widgets:** ${widgets.join(', ')}` : ''}`);
+  const held = Math.max(0, ...run.pages.flatMap((p) => Object.values(p.views).map((v) => v?.delayedScripts || 0)));
+  if (held) L.push('', `**Delayed JavaScript:** ${held} scripts are held back until the first user interaction (a speed plugin). They were released with a simulated mouse move before measuring, so sticky headers, sliders and animations are measured as a visitor sees them.`);
   const dirInfo = run.pages[0]?.views.desktop?.data?.meta;
   if (dirInfo) L.push('', `**Language / direction:** ${dirInfo.lang || '—'} / ${dirInfo.dir || '—'}`);
   if (warnings.length) { h(2, '⚠️ Warnings'); for (const w of warnings) L.push(`- ${w}`); }
@@ -715,6 +717,7 @@ function reportMd(x) {
     const hd = cp.header[vp];
     if (!hd) continue;
     L.push(`- **${vp}:** height ${hd.height}px · position ${code(hd.position)}${hd.pinned?.length ? ` (pinned: ${hd.pinned.map((p) => p.position).join(', ')})` : ''} · bg ${code(hd.bg || 'transparent')}${hd.shadow ? ` · shadow ${code(hexify(hd.shadow))}` : ''}${hd.borderBottom ? ` · border-bottom ${code(hd.borderBottom)}` : ''} · sticky on scroll: **${hd.sticky === null ? '?' : hd.sticky ? 'yes' : 'no'}**${hd.revealOnScrollUp ? ' (reveals on scroll-up)' : ''}${hd.logo ? ` · logo ${Math.round(hd.logo.w)}×${Math.round(hd.logo.h)} ${hd.logo.tag}` : ''}`);
+    if (hd.bar) L.push(`  - painted bar: ${Math.round(hd.bar.w)}×${Math.round(hd.bar.h)} · inset ${hd.bar.insetX}px sides / ${hd.bar.insetTop}px top · radius ${code(hd.bar.radius)} · border ${code(hd.bar.border || 'none')} · padding ${code(hd.bar.padding)}`);
     if (hd.changesOnScroll && Object.keys(hd.changesOnScroll).length) L.push(`  - changes after scrolling: ${Object.entries(hd.changesOnScroll).map(([k, v]) => `${k}: ${v}`).join('; ')}`);
     if (hd.shots?.length) L.push(`  - ${hd.shots.map((s) => `![header ${vp}](${s})`).join(' ')}`);
   }
@@ -777,7 +780,13 @@ function reportMd(x) {
   const n = run.network || {};
   L.push(`- Stylesheets: ${n.cssFiles ?? 0} files (+ inline <style> blocks) · ${run.css?.rules ?? 0} rules · ${run.css?.vars?.length ?? 0} custom properties · ${run.css?.fontFaces?.length ?? 0} @font-face · ${run.css?.keyframes?.length ?? 0} @keyframes${run.css?.errors?.length ? ` · parse errors: ${run.css.errors.length}` : ''}`);
   L.push(`- Assets seen: ${Object.entries(n.byType || {}).map(([k, v]) => `${k} ${v}`).join(', ') || '—'} · saved locally: ${n.savedMb ?? 0} MB (fonts/ and images/ are git-ignored)`);
-  if (n.failedHosts?.length) L.push(`- Failed requests by host: ${n.failedHosts.map((f) => `${f.host} ×${f.count}${f.blocked ? ' (blocked)' : ''}`).join(', ')}`);
+  if (n.failedHosts?.length) {
+    // ERR_ABORTED = the browser cancelled the request itself (page closed, tracker beacon, video range) — harmless.
+    const real = (f) => f.count - (f.errors?.['net::ERR_ABORTED'] || 0);
+    const failed = n.failedHosts.filter((f) => real(f) > 0), aborted = n.failedHosts.filter((f) => f.errors?.['net::ERR_ABORTED']);
+    if (failed.length) L.push(`- Failed requests by host: ${failed.map((f) => `${f.host} ×${real(f)} (${Object.keys(f.errors || {}).filter((e) => e !== 'net::ERR_ABORTED').join(', ')})${f.blocked ? ' **blocked**' : ''}`).join(', ')}`);
+    if (aborted.length) L.push(`- Cancelled by the browser (ERR_ABORTED — normal when a page closes; not a block): ${aborted.map((f) => `${f.host} ×${f.errors['net::ERR_ABORTED']}`).join(', ')}`);
+  }
   L.push('- Files: `tokens.json` (all measured tokens) · `tokens.css` (CSS variables) · `tailwind-theme.css` (Tailwind v4 @theme) · `data/raw.json` (every measurement) · `css/` (original stylesheets) · `pages/*.html` (rendered DOM) · `pages/*.md` (text outline)');
   return L.join('\n') + '\n';
 }
