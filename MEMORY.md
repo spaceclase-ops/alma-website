@@ -60,6 +60,16 @@ vercel.json         buildCommand, cleanUrls, trailingSlash=false, הפניות 3
 - `sitemap.xml` + `robots.txt` נוצרים אוטומטית.
 - בדיקה מהירה: `curl -s https://alma-ads.co.il/faq | grep -c "question"` או לפתוח View Source.
 
+## מדידה ותנועה
+- הכלי היחיד שמודד כניסות כרגע: Meta Pixel `660125253756573`. Claude קורא אותו דרך Meta, עד 28 יום אחורה.
+  אין Vercel Web Analytics, אין GA4 ואין Search Console. החיבור של Claude ל-Vercel לא רואה את הצוות של הפרויקט.
+- אותו פיקסל נמצא גם בדפי נחיתה אחרים (`boost.alma-ads.co.il`, `lpfitness.alma-ads.co.il`), לכן מסננים לפי host `www.alma-ads.co.il`.
+- כל כניסה נספרת כ-2 PageView: אחד מהקוד ב-`index.html` ואחד מה-`useEffect` ב-`App.tsx`. מספר הכניסות ≈ PageView חלקי 2.
+- בפירוק לפי כתובת, Meta מחזיר רק את דף הבית, בלי נתיבים ובלי UTM.
+- הכניסות נרשמות על `www.alma-ads.co.il`. צריך לוודא שה-canonical (שנגזר מ-`VERCEL_PROJECT_PRODUCTION_URL`) מצביע על אותה כתובת.
+- הטופס (Web3Forms) לא שולח ל-Gmail או ל-Outlook שמחוברים ל-Claude.
+- נקודת ייחוס: 10.10–23.10 כ-40 כניסות (78 PageView), 24.10–6.11 כ-100 כניסות (214 PageView).
+
 ## איך מוסיפים
 **מאמר חדש**
 1. `data/insightsData.ts`: אובייקט חדש ב-`rawArticles` (id הבא) + slug באנגלית ב-`slugById`. לא לשנות slug קיים.
