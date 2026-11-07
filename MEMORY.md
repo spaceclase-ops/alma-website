@@ -71,7 +71,13 @@ vercel.json         buildCommand, cleanUrls, trailingSlash=false, הפניות 3
   לספירה: `event_source=WEB_ONLY` בלבד. ה-PageView מ-`App.tsx` לא מכפיל (יש ימים עם PageView בודד בדפדפן).
 - בפירוק לפי כתובת, Meta מחזיר רק את דף הבית, בלי נתיבים ובלי UTM.
 - ב-88% מה-PageView יש `fbc`: המבקר הגיע מלחיצה על קישור בפייסבוק או באינסטגרם.
-- הטופס (Web3Forms) שולח ל-alma.ads2010@gmail.com (לפי ניב). ה-Gmail שמחובר ל-Claude הוא niveini@gmail.com.
+- טופס האתר (Web3Forms) לא מגיע לאף תיבה שנבדקה (07.11.2026): alma.ads2010@gmail.com, niv@alma-ads.co.il,
+  niveini@gmail.com, space.clase@gmail.com. אף אחת מהן גם לא קיבלה אי פעם מייל מ-Web3Forms. כנראה המפתח רשום
+  על כתובת אחרת (אולי alma.gads2010@gmail.com, שהחיבור שלה ב-Zapier צריך חיבור מחדש).
+- "ALMA NEW LEAD": מיילים ש-alma.ads2010 שולח ל-niv@alma-ads.co.il דרך אוטומציה, עם לידים משאלון (נראה כמו טופס
+  לידים של Meta, לא האתר). 16 כאלה ב-25.10–7.11.
+- גישה לתיבות: ה-Gmail שמחובר ל-Claude הוא niveini@gmail.com. Outlook (Microsoft 365) הוא niv@alma-ads.co.il.
+  alma.ads2010 זמין רק דרך Zapier (חיבור Gmail בשם "עלמה ייעוץ ושיווק"; פעולת החיפוש מחזירה רק את המייל האחרון).
 - נקודת ייחוס (רק דפדפן, רק www): 10.10–23.10 כ-30 צפיות בעמודים; 24.10–6.11 כ-115 צפיות,
   4 שליחות טופס, 3 לחיצות וואטסאפ, 4 פתיחות מאמר. הקישור לאתר נוסף לביו באינסטגרם בתקופה הזו.
 - בדיקות מקומיות: לפתוח ב-`http://localhost` (סקריפט ה-HTTPS ב-`index.html` מעביר כל host אחר ל-https).
