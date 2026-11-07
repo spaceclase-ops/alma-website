@@ -5,9 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode, isSsrBuild }) => {
     const env = loadEnv(mode, '.', '');
     // Canonical site address for SEO tags (data/site.ts). On Vercel this is the
-    // project's production domain; elsewhere it falls back to the main domain.
+    // project's production domain (www.alma-ads.co.il; the bare domain redirects to it);
+    // elsewhere it falls back to the same address.
     const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-    const siteUrl = productionHost ? `https://${productionHost}` : 'https://alma-ads.co.il';
+    const siteUrl = productionHost ? `https://${productionHost}` : 'https://www.alma-ads.co.il';
     return {
       server: {
         port: 3000,

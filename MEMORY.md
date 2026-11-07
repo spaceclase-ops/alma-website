@@ -23,6 +23,8 @@
 - `lucide-react` לאייקונים. פונט Rubik מ-Google Fonts.
 - טפסים: Web3Forms (`VITE_WEB3FORMS_ACCESS_KEY`).
 - Meta Pixel `660125253756573` ב-`index.html` + אירועים ב-`App.tsx`.
+- Vercel Web Analytics: `@vercel/analytics` 2.0.1, `<Analytics />` בסוף `AppContent` ב-`App.tsx` (לא מרנדר HTML).
+  עובד רק אחרי הפעלה בדשבורד של Vercel (Analytics ← Enable) ופריסה חדשה. עד אז `/_vercel/insights/script.js` מחזיר 404.
 
 ## מבנה קבצים
 ```
@@ -50,7 +52,8 @@ vercel.json         buildCommand, cleanUrls, trailingSlash=false, הפניות 3
    הבנייה נכשלת אם: לדף אין `<h1>`, JSON-LD לא תקין, או שההפניות ב-vercel.json/netlify.toml
    לא תואמות ל-`legacyInsightSlugs`.
 - ב-Vercel, `cleanUrls` מגיש את `services.html` בכתובת `/services`. כתובת לא קיימת מקבלת `404.html` עם סטטוס 404.
-- `SITE_URL` = `https://${VERCEL_PROJECT_PRODUCTION_URL}` ב-Vercel, אחרת `https://alma-ads.co.il`.
+- `SITE_URL` = `https://${VERCEL_PROJECT_PRODUCTION_URL}` ב-Vercel (בפועל `https://www.alma-ads.co.il`), אחרת אותה כתובת.
+- הדומיין הראשי הוא `www.alma-ads.co.il`. `alma-ads.co.il` מפנה אליו ב-307 (נבדק 07.11.2026). canonical, sitemap ו-robots על www.
 
 ## SEO / GEO – מה קיים
 - כל דף מגיע כ-HTML מלא (בוטים של גוגל ושל עוזרי AI רואים את כל התוכן בלי JavaScript).
@@ -58,17 +61,21 @@ vercel.json         buildCommand, cleanUrls, trailingSlash=false, הפניות 3
 - JSON-LD: ProfessionalService (עלמה?, כתובת, טלפון, שעות א'-ה' 09:00-18:00, שירותים, פייסבוק),
   Person (ניב עיני), WebSite, WebPage/AboutPage/ContactPage/CollectionPage, FAQPage, BlogPosting, BreadcrumbList.
 - `sitemap.xml` + `robots.txt` נוצרים אוטומטית.
-- בדיקה מהירה: `curl -s https://alma-ads.co.il/faq | grep -c "question"` או לפתוח View Source.
+- בדיקה מהירה: `curl -s https://www.alma-ads.co.il/faq | grep -c "question"` או לפתוח View Source.
 
 ## מדידה ותנועה
-- הכלי היחיד שמודד כניסות כרגע: Meta Pixel `660125253756573`. Claude קורא אותו דרך Meta, עד 28 יום אחורה.
-  אין Vercel Web Analytics, אין GA4 ואין Search Console. החיבור של Claude ל-Vercel לא רואה את הצוות של הפרויקט.
+- עד 07.11.2026 הכלי היחיד שמדד כניסות היה Meta Pixel `660125253756573`. Claude קורא אותו דרך Meta, עד 28 יום אחורה.
+  אין GA4 ואין Search Console. החיבור של Claude ל-Vercel לא רואה את הצוות של הפרויקט, אז נתוני Vercel Analytics רק בדשבורד.
 - אותו פיקסל נמצא גם בדפי נחיתה אחרים (`boost.alma-ads.co.il`, `lpfitness.alma-ads.co.il`), לכן מסננים לפי host `www.alma-ads.co.il`.
-- כל כניסה נספרת כ-2 PageView: אחד מהקוד ב-`index.html` ואחד מה-`useEffect` ב-`App.tsx`. מספר הכניסות ≈ PageView חלקי 2.
+- כל אירוע מגיע ל-Meta פעמיים: מהדפדפן (BROWSER) ומערוץ שרת (SERVER, Conversions API) שלא נמצא בקוד של האתר.
+  לספירה: `event_source=WEB_ONLY` בלבד. ה-PageView מ-`App.tsx` לא מכפיל (יש ימים עם PageView בודד בדפדפן).
 - בפירוק לפי כתובת, Meta מחזיר רק את דף הבית, בלי נתיבים ובלי UTM.
-- הכניסות נרשמות על `www.alma-ads.co.il`. צריך לוודא שה-canonical (שנגזר מ-`VERCEL_PROJECT_PRODUCTION_URL`) מצביע על אותה כתובת.
-- הטופס (Web3Forms) לא שולח ל-Gmail או ל-Outlook שמחוברים ל-Claude.
-- נקודת ייחוס: 10.10–23.10 כ-40 כניסות (78 PageView), 24.10–6.11 כ-100 כניסות (214 PageView).
+- ב-88% מה-PageView יש `fbc`: המבקר הגיע מלחיצה על קישור בפייסבוק או באינסטגרם.
+- הטופס (Web3Forms) שולח ל-alma.ads2010@gmail.com (לפי ניב). ה-Gmail שמחובר ל-Claude הוא niveini@gmail.com.
+- נקודת ייחוס (רק דפדפן, רק www): 10.10–23.10 כ-30 צפיות בעמודים; 24.10–6.11 כ-115 צפיות,
+  4 שליחות טופס, 3 לחיצות וואטסאפ, 4 פתיחות מאמר. הקישור לאתר נוסף לביו באינסטגרם בתקופה הזו.
+- בדיקות מקומיות: לפתוח ב-`http://localhost` (סקריפט ה-HTTPS ב-`index.html` מעביר כל host אחר ל-https).
+  YouTube ו-Meta חסומים בסביבה, אז חוסמים בקשות חיצוניות בבדיקה.
 
 ## איך מוסיפים
 **מאמר חדש**
@@ -106,6 +113,9 @@ vercel.json         buildCommand, cleanUrls, trailingSlash=false, הפניות 3
 - `tsc --noEmit`: שתי שגיאות ישנות (`import.meta.env` בלי טיפוסי vite/client). Vite לא בודק טיפוסים.
 - ב-`public/images` יש קבצי מקור גדולים שכבר לא בשימוש (~100MB). אפשר למחוק.
 - אין favicon ואין קובץ לוגו (מומלץ ל-schema ולתוצאות גוגל).
+- תוקן 07.11.2026: תמונת סרטון שלא נטענה (YouTube חסום או סרטון שנמחק) נטענה מחדש בלולאה אינסופית ב-`VideoCarousel.tsx`.
+  עכשיו יש ניסיון חלופי אחד, ואם גם הוא נכשל התמונה מוסתרת.
+- ההפניה מ-`alma-ads.co.il` ל-www היא 307 (זמנית). עדיף 308 (קבועה): Vercel ← Settings ← Domains.
 - לוודא ב-Vercel ש-`alma-ads.co.il` הוא הדומיין הראשי ושכתובת ה-vercel.app מפנה אליו.
 - שלב 2 (תוכן): הטיוטות (דף "צמיחה עסקית", מקרה לקוח, דפי שירות, שאלות נפוצות, llms.txt) מחכות לאישור ניב
   במסמך https://claude.ai/code/artifact/6c2bae28-2292-46c0-8609-52ab53a8a302. שום דבר מהן עוד לא באתר.

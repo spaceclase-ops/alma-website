@@ -24,6 +24,7 @@ import AccessibilityWidget from './components/AccessibilityWidget';
 import { applyPageMeta } from './data/seo';
 import { legacyInsightSlugs } from './data/insightsData';
 import { isPlainLeftClick } from './navigation';
+import { Analytics } from '@vercel/analytics/react';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -158,6 +159,9 @@ function AppContent() {
       <Footer onFAQClick={handleFAQNavigate} onInsightsClick={handleInsightsPageNavigate} onTestimonialsClick={handleTestimonialsPageNavigate} onServicesClick={handleServicesPageNavigate} />
       <CookieConsent />
       <AccessibilityWidget />
+      {/* Vercel Web Analytics: cookieless visit stats (source, pages). Renders nothing;
+          loads /_vercel/insights/script.js in the browser once Analytics is enabled in Vercel. */}
+      <Analytics />
     </div>
   );
 }

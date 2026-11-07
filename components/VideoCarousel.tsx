@@ -129,7 +129,14 @@ const VideoCarousel: React.FC = () => {
                       alt={video.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
+                        // Fall back to the smaller thumbnail once. If that fails too (YouTube blocked,
+                        // video removed), hide the image instead of retrying it in an endless loop.
                         const target = e.currentTarget;
+                        if (target.dataset.fallback) {
+                          target.style.visibility = 'hidden';
+                          return;
+                        }
+                        target.dataset.fallback = '1';
                         target.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
                       }}
                     />
@@ -196,7 +203,14 @@ const VideoCarousel: React.FC = () => {
                       alt={video.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
+                        // Fall back to the smaller thumbnail once. If that fails too (YouTube blocked,
+                        // video removed), hide the image instead of retrying it in an endless loop.
                         const target = e.currentTarget;
+                        if (target.dataset.fallback) {
+                          target.style.visibility = 'hidden';
+                          return;
+                        }
+                        target.dataset.fallback = '1';
                         target.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
                       }}
                     />

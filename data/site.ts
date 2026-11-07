@@ -1,6 +1,6 @@
 // Business details used by page metadata and structured data (data/seo.ts).
 // __SITE_URL__ is injected by vite.config.ts: the project's production domain on
-// Vercel, or https://alma-ads.co.il when building anywhere else.
+// Vercel (www.alma-ads.co.il), or the same https://www.alma-ads.co.il when building anywhere else.
 declare const __SITE_URL__: string;
 
 export const SITE_URL: string = __SITE_URL__;
