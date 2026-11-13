@@ -88,6 +88,21 @@ vercel.json         buildCommand, cleanUrls, trailingSlash=false, הפניות 3
 - בדיקות מקומיות: לפתוח ב-`http://localhost` (סקריפט ה-HTTPS ב-`index.html` מעביר כל host אחר ל-https).
   YouTube ו-Meta חסומים בסביבה, אז חוסמים בקשות חיצוניות בבדיקה.
 
+## אתר חדש: alma-site-v3 (נבדק 13.11.2026)
+- ניב בנה אתר חדש. פרויקט Vercel `alma-site-v3` בצוות "almaads' projects" (נגיש לחיבור ה-Vercel של Claude).
+  Vite + React, נפרס מהמחשב עם CLI (משתמש spaceclase-ops). אין ריפו ב-GitHub. עוד לא על הדומיין.
+- טוב: כל דף מגיע כ-HTML מלא עם title/description/canonical/OG, יש sitemap.xml ו-robots.txt, אותו פיקסל
+  (עם כיבוד הסכמה לעוגיות), וואטסאפ ושאלון "בדיקת התאמה" במקום טופס מייל.
+- חסר לפני העברת הדומיין:
+  1. 12 המאמרים חזרו לכתובות `/insights/insight-1..12`. הכתובות שגוגל מכיר מאז 03.10
+     (`/insights/pricing-story` וכו') מחזירות 404. המיפוי נמצא ב-`slugById` ב-`data/insightsData.ts`.
+  2. canonical, sitemap ו-OG על `https://alma-ads.co.il` (בלי www), והדומיין מגיש היום את www.
+  3. אין JSON-LD בכלל (עסק, מייסד, FAQ, מאמרים).
+  4. אין Vercel Web Analytics.
+  5. תאריכי המאמרים מומצאים (למשל "15 בינואר, 2025"), והקטגוריה "צמיחה ופיתוח עסקי" לא מופיעה בכותרות.
+- הדומיין `alma-ads.co.il` מחובר היום לפרויקט alma-website בצוות `nivs-projects-40e222c4` (חשבון Vercel אחר).
+  ההעברה לפרויקט החדש דורשת זהירות.
+
 ## איך מוסיפים
 **מאמר חדש**
 1. `data/insightsData.ts`: אובייקט חדש ב-`rawArticles` (id הבא) + slug באנגלית ב-`slugById`. לא לשנות slug קיים.
